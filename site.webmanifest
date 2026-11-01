@@ -1,0 +1,14 @@
+{
+  "name": "statement.work",
+  "short_name": "statement.work",
+  "description": "Bank statement converter: PDFs, scans and photos into clean Excel or CSV.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F6F7F4",
+  "theme_color": "#1F6F5C",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

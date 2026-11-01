@@ -1,416 +1,1137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>statement.work — Bank statements, structured</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank Statement Converter: PDF to Excel &amp; CSV | statement.work</title>
+<meta name="description" content="Convert bank statement PDFs, scans and photos into clean Excel or CSV files. Bank statement OCR for accountants, bookkeepers and small businesses. Any bank, any layout.">
+<link rel="canonical" href="https://statement.work/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#F6F7F4">
+<meta name="color-scheme" content="light">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="statement.work">
+<meta property="og:url" content="https://statement.work/">
+<meta property="og:title" content="statement.work: stop retyping bank statements">
+<meta property="og:description" content="Turn bank statement PDFs, scans and phone photos into clean Excel or CSV. Any bank, any layout, no templates.">
+<meta property="og:image" content="https://statement.work/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A bank statement PDF converted into a clean table of dated, categorized transactions.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="statement.work: stop retyping bank statements">
+<meta name="twitter:description" content="Turn bank statement PDFs, scans and phone photos into clean Excel or CSV. Any bank, any layout, no templates.">
+<meta name="twitter:image" content="https://statement.work/og-image.png">
+<meta name="twitter:image:alt" content="A bank statement PDF converted into a clean table of dated, categorized transactions.">
+
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly summary">
+
+<link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://statement.work/#organization",
+      "name": "statement.work",
+      "url": "https://statement.work/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://statement.work/icon-512.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://statement.work/#website",
+      "url": "https://statement.work/",
+      "name": "statement.work",
+      "description": "Bank statement converter: turn PDFs, scans and photos into clean Excel or CSV.",
+      "publisher": { "@id": "https://statement.work/#organization" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://statement.work/#software",
+      "name": "statement.work",
+      "url": "https://statement.work/",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Bank statement converter",
+      "operatingSystem": "Web",
+      "description": "statement.work converts bank statements (PDF exports, scanned copies and phone photos, from any bank and any layout) into clean CSV, Excel or JSON. It categorizes transactions, flags anomalies such as duplicate charges and fee spikes, handles multiple currencies, and answers plain-language questions about your statements.",
+      "featureList": [
+        "Bank statement PDF to Excel",
+        "Bank statement PDF to CSV",
+        "JSON export",
+        "OCR for scanned statements and phone photos",
+        "Works with any bank and any layout, no templates",
+        "Automatic transaction categorization",
+        "Duplicate charge and fee spike detection",
+        "Multi-currency statements",
+        "Plain-language questions about your transactions"
+      ],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Accountants, bookkeepers and small businesses"
+      },
+      "publisher": { "@id": "https://statement.work/#organization" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://statement.work/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I convert a bank statement PDF to Excel?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Upload the PDF to statement.work and download the result as an Excel file. It reads every transaction (date, description, amount and running balance) and puts each one in the right column, so there is nothing to copy, paste or retype. statement.work is in early access; join the waitlist to get in." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert a bank statement PDF to CSV?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every statement can be exported as CSV, Excel or JSON, with the same consistent columns every time, ready to open in a spreadsheet or import into accounting software." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work with scanned bank statements and phone photos?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. statement.work reads scanned copies and photos taken on a phone as well as digital PDF exports. It reads the document itself, so the statement doesn't need selectable text." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which banks does statement.work support?",
+          "acceptedAnswer": { "@type": "Answer", "text": "statement.work is built to work with statements from any bank, without a template mapped in advance. Every bank formats its statements differently, so it reads the document instead of relying on a fixed layout." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is bank statement OCR?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Bank statement OCR is software that reads the text and numbers on a statement, whether a PDF or an image, and turns them into structured data such as a spreadsheet. statement.work is tuned for the layouts, fonts and quirks of bank statements rather than documents in general." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert several bank statements at once?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can upload several statements in one go, and each one comes out in the same consistent format, whichever bank it came from." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my financial data safe?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Statements are encrypted in transit and at rest, source files are deleted after processing on a retention window you control, and your data is never used to train or fine-tune AI models." }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is statement.work for?",
+          "acceptedAnswer": { "@type": "Answer", "text": "statement.work is for accountants, bookkeepers and small businesses who spend time turning bank statements into spreadsheets, whether for bookkeeping, month-end close or tax prep." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>document.documentElement.classList.add('js');</script>
+
 <style>
+  @font-face{
+    font-family:'Schibsted Grotesk';
+    font-style:normal; font-weight:400 800; font-display:swap;
+    src:url(/fonts/schibsted-grotesk-latin.woff2) format('woff2');
+  }
+  @font-face{
+    font-family:'Geist Mono';
+    font-style:normal; font-weight:400 500; font-display:swap;
+    src:url(/fonts/geist-mono-latin.woff2) format('woff2');
+  }
+  /* Metric-matched fallback keeps text from jumping when the web font arrives */
+  @font-face{
+    font-family:'Schibsted Fallback';
+    src:local('Arial'), local('Helvetica Neue'), local('Helvetica');
+    size-adjust:101%; ascent-override:96%; descent-override:26%; line-gap-override:0%;
+  }
+
   :root{
-    --paper:#FAFAF8;
-    --paper-alt:#F1F0EA;
-    --ink:#14181C;
-    --ink-soft:#3F454B;
-    --muted:#6B7280;
-    --rule:#E3E1DA;
-    --accent:#1F6F5C;
-    --accent-deep:#123F35;
-    --accent-soft:#DCEEE8;
-    --neg:#9C3B2E;
+    --bg:#F6F7F4;
+    --surface:#FFFFFF;
+    --ink:#0E1A15;
+    --ink-2:#36423D;
+    --muted:#5B6762;
+    --rule:#E1E5E0;
+    --rule-2:#CDD4CE;
+
+    --green:#1F6F5C;
+    --green-deep:#123F35;
+    --green-wash:#E4EFE8;
+    --green-glow:#86D9BC;
+
+    --ledger:#F2F7F0;
+    --ledger-rule:#D2E2D5;
+    --pencil:#B8432F;
+
+    --night:#0D1713;
+    --night-2:#14221C;
+    --night-rule:rgba(255,255,255,.09);
+    --night-text:#E8EEEA;
+    --night-muted:#9DABA4;
+
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --ease-io:cubic-bezier(.77,0,.175,1);
+    /* gentle spring, ~12% overshoot */
+    --spring:linear(0, .06 3%, .23 8%, .48 15%, .74 23%, .9 31%, .99 39%, 1.025 47%, 1.03 54%, 1.012 66%, 1.002 80%, 1);
+
+    --font:'Schibsted Grotesk','Schibsted Fallback',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --gutter:clamp(16px,4vw,32px);
+    --radius:14px;
+    --section:clamp(80px,11vw,136px);
   }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top:80px; -webkit-text-size-adjust:100%;}
   body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    -webkit-font-smoothing:antialiased;
-    line-height:1.5;
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font); font-size:17px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+    caret-color:var(--green);
+    scrollbar-color:var(--rule-2) var(--bg);
   }
-  h1,h2,h3{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:600;
-    margin:0;
-    letter-spacing:-0.01em;
-  }
-  .mono{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums;}
-  a{color:inherit;}
-  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  ::selection{background:#C8E6D8; color:var(--ink);}
+  img,svg{display:block;}
+  a{color:inherit; text-underline-offset:3px; text-decoration-thickness:1px;}
+  h1,h2,h3{margin:0; font-weight:650; letter-spacing:-0.025em; line-height:1.08; text-wrap:balance;}
+  p{margin:0; text-wrap:pretty;}
+  .num{font-family:var(--mono); font-variant-numeric:tabular-nums; letter-spacing:-0.01em;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 var(--gutter);}
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+  :focus-visible{outline:2px solid var(--green); outline-offset:3px; border-radius:6px;}
 
-  /* NAV */
-  header{
-    position:sticky; top:0; z-index:50;
-    background:rgba(250,250,248,0.86);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--rule);
-  }
-  nav{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:18px 0;
-  }
-  .logo{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:600; font-size:18px; letter-spacing:-0.01em;
-    display:flex; align-items:center; gap:8px;
-  }
-  .logo .dot{width:7px;height:7px;border-radius:50%;background:var(--accent); display:inline-block;}
-  .nav-links{display:flex; gap:32px; font-size:14px; color:var(--ink-soft);}
-  .nav-links a{text-decoration:none; transition:color .15s;}
-  .nav-links a:hover{color:var(--accent-deep);}
+  .skip{position:absolute; left:16px; top:-48px; z-index:100; background:var(--ink); color:#fff; padding:10px 14px; border-radius:8px; text-decoration:none; transition:transform .2s var(--ease-out);}
+  .skip:focus{transform:translateY(64px);}
+
+  /* ---------- Buttons ---------- */
   .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:10px 18px; border-radius:8px; font-size:14px; font-weight:500;
-    text-decoration:none; cursor:pointer; border:1px solid transparent;
-    transition:all .15s;
+    -webkit-appearance:none; appearance:none; border:0; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    height:44px; padding:0 18px; border-radius:10px;
+    font:inherit; font-size:15px; font-weight:600; letter-spacing:-0.01em;
+    text-decoration:none; white-space:nowrap; user-select:none;
+    transition:background-color .18s ease, color .18s ease, box-shadow .18s ease, transform .16s var(--ease-out);
+    -webkit-tap-highlight-color:transparent;
   }
-  .btn-primary{background:var(--ink); color:var(--paper);}
-  .btn-primary:hover{background:var(--accent-deep);}
-  .btn-ghost{border-color:var(--rule); color:var(--ink);}
-  .btn-ghost:hover{border-color:var(--ink-soft);}
-  @media (max-width:720px){.nav-links{display:none;}}
-
-  /* HERO */
-  .hero{padding:96px 0 64px;}
-  .eyebrow{
-    font-size:13px; color:var(--accent-deep); font-weight:500;
-    text-transform:uppercase; letter-spacing:0.08em;
-    display:flex; align-items:center; gap:8px; margin-bottom:20px;
+  .btn:active{transform:scale(.97);}
+  .btn-primary{
+    background:var(--ink); color:#fff;
+    box-shadow:0 1px 0 rgba(255,255,255,.12) inset, 0 1px 2px rgba(14,26,21,.2), 0 4px 12px -4px rgba(14,26,21,.35);
   }
-  .eyebrow::before{content:""; width:16px; height:1px; background:var(--accent);}
-  h1.display{font-size:56px; line-height:1.05; max-width:760px;}
-  .sub{font-size:19px; color:var(--ink-soft); max-width:560px; margin-top:22px;}
-  .hero-cta{display:flex; gap:14px; margin-top:36px;}
-  @media (max-width:720px){h1.display{font-size:38px;}}
-
-  /* LEDGER VISUAL */
-  .ledger{
-    margin-top:72px; border:1px solid var(--rule); border-radius:14px;
-    overflow:hidden; background:#fff;
-    display:grid; grid-template-columns:1fr auto 1.3fr;
+  .btn-quiet{background:transparent; color:var(--ink); box-shadow:0 0 0 1px var(--rule-2) inset;}
+  .btn .arrow{transition:transform .2s var(--ease-out);}
+  @media (hover:hover) and (pointer:fine){
+    .btn-primary:hover{background:var(--green-deep);}
+    .btn-quiet:hover{box-shadow:0 0 0 1px var(--ink-2) inset; background:rgba(14,26,21,.03);}
+    .btn:hover .arrow{transform:translateX(2px);}
   }
-  @media (max-width:860px){.ledger{grid-template-columns:1fr;}}
-  .ledger-side{padding:28px; position:relative;}
-  .ledger-raw{background:var(--paper-alt); border-right:1px solid var(--rule);}
-  .raw-card{
-    background:#fff; border:1px solid var(--rule); border-radius:8px;
-    padding:20px 18px; transform:rotate(-1.2deg);
-    box-shadow:0 12px 24px -16px rgba(20,24,28,0.25);
+  .btn[disabled]{cursor:progress;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,247,244,.82);
+    -webkit-backdrop-filter:saturate(1.6) blur(14px); backdrop-filter:saturate(1.6) blur(14px);
+    box-shadow:0 1px 0 transparent;
+    transition:box-shadow .2s ease;
   }
-  .raw-line{height:9px; border-radius:2px; background:#D6D3C9; margin-bottom:10px;}
-  .raw-line.w1{width:70%;} .raw-line.w2{width:92%;} .raw-line.w3{width:55%;}
-  .raw-line.w4{width:84%;} .raw-line.w5{width:64%;}
-  .raw-label{font-size:12px; color:var(--muted); margin-top:16px;}
-  .ledger-mid{display:flex; align-items:center; justify-content:center; padding:0 8px; color:var(--accent);}
-  @media (max-width:860px){.ledger-mid{padding:12px 0; transform:rotate(90deg);}}
-  .ledger-clean{padding:28px 30px;}
-  table.tx{width:100%; border-collapse:collapse; font-size:13.5px;}
-  table.tx th{
-    text-align:left; font-family:'Inter'; font-weight:500; color:var(--muted);
-    font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em;
-    padding-bottom:10px; border-bottom:1px solid var(--rule);
+  .site-header.scrolled{box-shadow:0 1px 0 var(--rule);}
+  .nav{display:flex; align-items:center; justify-content:space-between; height:64px; gap:24px;}
+  .brand{display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:650; font-size:17px; letter-spacing:-0.02em;}
+  .brand svg{width:24px; height:24px;}
+  .nav-links{display:flex; gap:4px; margin:0; padding:0; list-style:none;}
+  .nav-links a{display:block; padding:8px 12px; border-radius:8px; font-size:14.5px; color:var(--ink-2); text-decoration:none; transition:color .15s ease, background-color .15s ease;}
+  @media (hover:hover) and (pointer:fine){ .nav-links a:hover{color:var(--ink); background:rgba(14,26,21,.05);} }
+  .nav .btn{height:38px; padding:0 14px; font-size:14px;}
+  @media (max-width:820px){ .nav-links{display:none;} }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:clamp(40px,6.5vw,88px) 0 clamp(64px,8vw,104px); overflow:hidden;}
+  .hero-copy{max-width:780px;}
+  .hero h1{font-size:clamp(2.6rem, 5.4vw + 1rem, 5.25rem); letter-spacing:-0.035em; line-height:1; font-weight:680;}
+  .hero h1 .soft{color:var(--green);}
+  .lede{margin-top:24px; font-size:clamp(1.07rem, .35vw + 1rem, 1.25rem); color:var(--ink-2); max-width:56ch; line-height:1.55;}
+  .hero-form{margin-top:36px; max-width:500px;}
+  .hero-note{margin-top:12px; font-size:14px; color:var(--muted);}
+
+  /* ---------- Waitlist form ---------- */
+  .waitlist{
+    display:flex; gap:6px; padding:6px; background:var(--surface); border-radius:14px;
+    box-shadow:0 0 0 1px var(--rule-2), 0 1px 2px rgba(14,26,21,.05), 0 8px 24px -16px rgba(14,26,21,.25);
+    transition:box-shadow .2s ease;
   }
-  table.tx td{padding:9px 0; border-bottom:1px solid var(--rule);}
-  table.tx tr:last-child td{border-bottom:none;}
-  .amt-neg{color:var(--neg);}
-  .amt-pos{color:var(--accent-deep);}
-  .tx-row{opacity:0; transform:translateY(6px); animation:rise .5s ease forwards;}
-  .tx-row:nth-child(1){animation-delay:.1s;}
-  .tx-row:nth-child(2){animation-delay:.25s;}
-  .tx-row:nth-child(3){animation-delay:.4s;}
-  .tx-row:nth-child(4){animation-delay:.55s;}
-  .tx-row:nth-child(5){animation-delay:.7s;}
-  @keyframes rise{to{opacity:1; transform:translateY(0);}}
-  @media (prefers-reduced-motion:reduce){.tx-row{animation:none; opacity:1;}}
-
-  /* SECTIONS */
-  section{padding:88px 0;}
-  .section-head{max-width:560px; margin-bottom:48px;}
-  .section-head .eyebrow{margin-bottom:14px;}
-  .section-head h2{font-size:32px;}
-  .section-head p{color:var(--ink-soft); font-size:16px; margin-top:14px;}
-
-  /* STEPS */
-  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--rule);}
-  .step{padding:32px 28px 0; border-right:1px solid var(--rule);}
-  .step:last-child{border-right:none;}
-  @media (max-width:860px){.steps{grid-template-columns:1fr;} .step{border-right:none; border-bottom:1px solid var(--rule); padding-bottom:28px;}}
-  .step-num{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--accent); margin-bottom:14px;}
-  .step h3{font-size:19px; margin-bottom:10px;}
-  .step p{color:var(--ink-soft); font-size:14.5px;}
-
-  /* FEATURES */
-  .grid-features{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:12px; overflow:hidden;}
-  @media (max-width:860px){.grid-features{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.grid-features{grid-template-columns:1fr;}}
-  .feature{background:#fff; padding:28px;}
-  .feature h3{font-size:16px; margin-bottom:8px;}
-  .feature p{font-size:14px; color:var(--ink-soft);}
-  .feature .icon{width:34px; height:34px; border-radius:8px; background:var(--accent-soft); color:var(--accent-deep); display:flex; align-items:center; justify-content:center; margin-bottom:16px; font-size:16px;}
-
-  /* ASK SECTION */
-  .ask-panel{
-    background:var(--ink); color:var(--paper); border-radius:16px; padding:44px;
-    display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
+  .waitlist:focus-within{box-shadow:0 0 0 1px var(--green), 0 0 0 5px rgba(31,111,92,.14), 0 8px 24px -16px rgba(14,26,21,.25);}
+  .waitlist.invalid{box-shadow:0 0 0 1px var(--pencil), 0 0 0 5px rgba(184,67,47,.12);}
+  .waitlist input{
+    flex:1; min-width:0; height:44px; border:0; background:transparent; padding:0 12px;
+    font:inherit; font-size:16px; color:var(--ink); border-radius:8px;
   }
-  @media (max-width:860px){.ask-panel{grid-template-columns:1fr;}}
-  .ask-panel h2{color:var(--paper); font-size:28px;}
-  .ask-panel p{color:#B9BEC3; margin-top:14px; font-size:15px;}
-  .chip-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
-  .chip{font-size:12.5px; padding:7px 12px; border-radius:20px; border:1px solid #383E43; color:#C9CDD1;}
-  .mock-chat{background:#1C2126; border:1px solid #2C3237; border-radius:12px; padding:20px;}
-  .mock-q{font-size:14px; color:#D8DBDE; margin-bottom:14px;}
-  .mock-a{font-size:14px; color:var(--paper); border-top:1px solid #2C3237; padding-top:14px;}
-  .mock-a .figure{font-family:'JetBrains Mono',monospace; color:#7FD9BB;}
-
-  /* SECURITY */
-  .trust-list{display:grid; grid-template-columns:repeat(3,1fr); gap:32px;}
-  @media (max-width:720px){.trust-list{grid-template-columns:1fr;}}
-  .trust-item{padding-top:20px; border-top:2px solid var(--ink);}
-  .trust-item h3{font-size:16px; margin-bottom:8px;}
-  .trust-item p{font-size:14px; color:var(--ink-soft);}
-
-  /* CTA */
-  .cta-band{
-    background:var(--paper-alt); border:1px solid var(--rule); border-radius:16px;
-    padding:56px; text-align:center;
+  .waitlist input::placeholder{color:#7D8883;}
+  .waitlist input:focus{outline:none;}
+  .waitlist .btn{flex:none;}
+  .btn .label{transition:opacity .15s ease, filter .15s ease;}
+  .spinner{width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; display:none; animation:spin .6s linear infinite;}
+  .is-loading .spinner{display:block;}
+  .is-loading .arrow{display:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .form-msg{margin-top:10px; font-size:14px; color:var(--pencil);}
+  .form-msg:empty{display:none;}
+  .success{
+    display:none; align-items:center; gap:12px; padding:14px 16px; border-radius:14px;
+    background:var(--green-wash); color:var(--green-deep); font-size:15.5px; font-weight:500;
+    box-shadow:0 0 0 1px rgba(31,111,92,.18) inset;
   }
-  .cta-band h2{font-size:30px; max-width:520px; margin:0 auto;}
-  .cta-band p{color:var(--ink-soft); margin-top:12px;}
-  .cta-form{display:flex; gap:10px; justify-content:center; margin-top:28px; max-width:420px; margin-left:auto; margin-right:auto;}
-  .cta-form input{
-    flex:1; padding:12px 14px; border-radius:8px; border:1px solid var(--rule);
-    font-size:14px; font-family:'Inter'; background:#fff;
+  .success svg{flex:none;}
+  .success .check{stroke-dasharray:24; stroke-dashoffset:24;}
+  [data-state="success"] .waitlist,[data-state="success"] .hero-note,[data-state="success"] .cta-note,[data-state="success"] .form-msg{display:none;}
+  [data-state="success"] .success{display:flex; animation:pop .32s var(--spring) both;}
+  [data-state="success"] .success .check{animation:draw .36s .12s var(--ease-out) forwards;}
+  @keyframes pop{from{opacity:0; transform:translateY(6px) scale(.98);}}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (max-width:480px){
+    .waitlist{flex-direction:column; padding:6px;}
+    .waitlist .btn{width:100%;}
   }
-  .cta-form input:focus{outline:none; border-color:var(--accent);}
-  .cta-note{font-size:12.5px; color:var(--muted); margin-top:14px;}
-  .thanks{font-size:14px; color:var(--accent-deep); margin-top:20px; display:none;}
 
-  /* FOOTER */
-  footer{border-top:1px solid var(--rule); padding:40px 0;}
-  .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
-  .foot-links{display:flex; gap:24px; font-size:13.5px; color:var(--muted);}
-  .foot-links a{text-decoration:none;}
-  .foot-links a:hover{color:var(--ink);}
-  .foot-small{font-size:12.5px; color:var(--muted); margin-top:20px;}
+  /* ---------- Hero demo ---------- */
+  .demo{margin:clamp(48px,7vw,80px) 0 0;}
+  .demo-frame{
+    background:var(--surface); border-radius:18px; overflow:hidden;
+    box-shadow:0 0 0 1px rgba(14,26,21,.08), 0 2px 4px rgba(14,26,21,.04), 0 32px 64px -32px rgba(14,26,21,.28);
+  }
+  .demo-bar{display:flex; align-items:center; justify-content:space-between; gap:12px; height:48px; padding:0 16px; border-bottom:1px solid var(--rule); font-size:13.5px; color:var(--ink-2);}
+  .files{display:flex; align-items:center; gap:10px; min-width:0;}
+  .file{display:inline-flex; align-items:center; gap:7px; white-space:nowrap;}
+  .file svg{flex:none;}
+  .file-out{color:var(--green-deep); font-weight:600;}
+  .status{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted); white-space:nowrap;}
+  .status .dot{width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 0 3px rgba(31,111,92,.15);}
+  .demo.done .status .dot{background:var(--green-deep);}
+  .demo-body{display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.3fr);}
 
-  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
-  .reveal.is-visible{opacity:1; transform:translateY(0);}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none;}}
+  /* The source: a printed statement on a desk */
+  .desk{position:relative; padding:28px 24px; background:#EBEDE8; border-right:1px solid var(--rule); overflow:hidden;}
+  .page{
+    position:relative; background:#FDFDFB; border-radius:4px; padding:22px 20px 26px;
+    transform:rotate(-1.1deg); transform-origin:50% 40%;
+    box-shadow:0 1px 1px rgba(0,0,0,.06), 0 12px 28px -12px rgba(30,40,35,.35);
+    font-family:var(--mono); font-size:10.5px; line-height:1.4; color:#55605B;
+  }
+  .page-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:12px; border-bottom:1px solid #E3E5E1; margin-bottom:10px;}
+  .bank{font-family:var(--font); font-weight:700; font-size:12.5px; letter-spacing:.06em; color:#2E3632;}
+  .page-meta{text-align:right; color:#7A847F;}
+  .p-cols,.p-row{display:grid; grid-template-columns:42px 1fr 58px 58px; gap:6px; align-items:baseline;}
+  .p-cols{font-size:9px; letter-spacing:.06em; color:#8C9590; padding:4px 0 6px;}
+  .p-cols span:nth-child(n+3),.p-row span:nth-child(n+3){text-align:right;}
+  .p-row{position:relative; padding:5px 0; border-top:1px dashed #E6E8E4;}
+  .p-row .d{color:#3E4844;}
+  .p-row .desc{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .scan{
+    position:absolute; left:12px; right:12px; top:0; height:24px; border-radius:4px;
+    background:rgba(31,111,92,.10); box-shadow:0 0 0 1px rgba(31,111,92,.35) inset;
+    opacity:0; pointer-events:none; will-change:transform;
+    transition:transform .28s var(--ease-io), opacity .2s ease;
+  }
+  .demo.running .scan{opacity:1;}
+  .page-foot{margin-top:12px; display:flex; justify-content:space-between; color:#7A847F; border-top:1px solid #E3E5E1; padding-top:10px;}
+
+  /* The result: a ruled ledger */
+  .sheet{position:relative; background:var(--ledger); display:flex; flex-direction:column; min-width:0;}
+  .ledger{width:100%; border-collapse:collapse; font-size:13.5px; table-layout:fixed;}
+  .ledger th{
+    text-align:left; font-weight:600; font-size:11.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted);
+    padding:14px 12px 10px; border-bottom:1px solid var(--ledger-rule); background:var(--ledger);
+  }
+  .ledger td{padding:0 12px; height:42px; border-bottom:1px solid var(--ledger-rule); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .ledger .c-date{width:116px;}
+  .ledger .c-cat{width:118px;}
+  .ledger .c-amt{width:104px; text-align:right; border-left:3px double var(--ledger-rule);}
+  .ledger .c-bal{width:104px; text-align:right;}
+  .ledger .c-tick{width:36px; padding:0 8px 0 0;}
+  .ledger td.c-date{color:var(--ink-2); font-size:12.5px;}
+  .ledger td.c-amt{font-weight:500;}
+  .ledger td.c-bal{color:var(--muted); font-size:12.5px;}
+  .pos{color:var(--green);}
+  .tag{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; background:rgba(31,111,92,.09); color:var(--green-deep);}
+  .tick{width:18px; height:14px; color:var(--pencil);}
+  .tick path{stroke-dasharray:22; stroke-dashoffset:0;}
+  .sheet-foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 12px 14px; font-size:13px; color:var(--muted);}
+  .exports{display:flex; gap:6px;}
+  .exports span{padding:4px 10px; border-radius:7px; background:var(--surface); box-shadow:0 0 0 1px var(--ledger-rule); color:var(--ink-2); font-weight:600; font-size:12.5px;}
+  .demo figcaption{margin-top:14px; font-size:13px; color:var(--muted);}
+
+  /* Animation states (only when JS has taken over) */
+  .js .demo .ledger tbody tr{opacity:0; transform:translateY(8px); filter:blur(3px);}
+  .js .demo .ledger tbody tr.in{opacity:1; transform:none; filter:none; transition:opacity .22s ease, transform .3s var(--spring), filter .22s ease;}
+  .js .demo .ledger tbody tr.out{opacity:0; transform:none; transition:opacity .2s ease;}
+  .js .demo .ledger .tick path{stroke-dashoffset:22;}
+  .js .demo .ledger tr.in .tick path{stroke-dashoffset:0; transition:stroke-dashoffset .26s .08s var(--ease-out);}
+  .js .demo .p-row.read{color:#9AA39F;}
+  .js .demo .p-row.read .d{color:#9AA39F;}
+  .js .demo .exports span{opacity:.45; transition:opacity .2s ease;}
+  .js .demo.done .exports span{opacity:1;}
+
+  @media (max-width:860px){
+    .demo-body{grid-template-columns:1fr;}
+    .desk{border-right:0; border-bottom:1px solid var(--rule); padding:20px 16px 24px;}
+    .page{transform:rotate(-.6deg);}
+    .ledger .c-cat{display:none;}
+  }
+  @media (max-width:520px){
+    .ledger .c-bal{display:none;}
+    .ledger .c-date{width:86px;}
+    .ledger td.c-date{font-size:11px;}
+    .ledger .c-amt{width:108px;}
+    .ledger .c-tick{width:30px;}
+    .ledger td,.ledger th{padding-left:10px; padding-right:10px;}
+    .p-cols,.p-row{grid-template-columns:38px 1fr 52px 52px; gap:4px;}
+    .page{font-size:9.5px; padding:16px 14px 18px;}
+    .page-meta{display:none;}
+    .file-in{display:none;}
+    .demo-bar .files .sep{display:none;}
+  }
+
+  /* ---------- Sections ---------- */
+  .section{padding:var(--section) 0;}
+  .section + .section{padding-top:0;}
+  .section-head{max-width:640px;}
+  .section-head h2,.h2{font-size:clamp(2rem, 2.6vw + 1rem, 3.1rem);}
+  .section-head p{margin-top:18px; font-size:clamp(1.02rem, .3vw + 1rem, 1.15rem); color:var(--ink-2); max-width:54ch;}
+  h3{font-size:19px; letter-spacing:-0.015em; line-height:1.25;}
+
+  /* Pain */
+  .pain{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.25fr); gap:clamp(40px,7vw,96px); align-items:start;}
+  .pain .section-head{position:sticky; top:112px;}
+  .pain-list{list-style:none; margin:0; padding:0;}
+  .pain-list li{display:grid; grid-template-columns:28px 1fr; gap:4px 16px; padding:26px 0; border-top:1px solid var(--rule);}
+  .pain-list li:last-child{border-bottom:1px solid var(--rule);}
+  .pain-list svg{grid-row:span 2; margin-top:3px; color:var(--pencil);}
+  .pain-list p{color:var(--ink-2); grid-column:2;}
+  .pain-turn{margin-top:28px; font-size:clamp(1.15rem, .6vw + 1rem, 1.4rem); font-weight:600; letter-spacing:-0.015em;}
+  .pain-turn span{color:var(--green);}
+  @media (max-width:860px){ .pain{grid-template-columns:1fr;} .pain .section-head{position:static;} }
+
+  /* Steps */
+  .steps{list-style:none; margin:56px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(24px,4vw,48px); counter-reset:step;}
+  .steps li{position:relative; padding-top:28px;}
+  .steps li::before{
+    counter-increment:step; content:counter(step);
+    position:absolute; top:-15px; left:0; width:30px; height:30px; border-radius:50%;
+    display:grid; place-items:center; background:var(--bg); color:var(--green-deep);
+    font-family:var(--mono); font-size:13px; font-weight:500; box-shadow:0 0 0 1px var(--rule-2) inset;
+  }
+  .steps{border-top:1px solid var(--rule-2);}
+  .steps h3{margin-top:12px; margin-bottom:8px;}
+  .steps p{color:var(--ink-2); font-size:16px;}
+  @media (max-width:760px){
+    .steps{grid-template-columns:1fr; border-top:0; gap:0; margin-top:40px;}
+    .steps li{padding:0 0 32px 48px; border-left:1px solid var(--rule-2); margin-left:15px;}
+    .steps li:last-child{border-left-color:transparent; padding-bottom:0;}
+    .steps li::before{top:-2px; left:-16px;}
+    .steps h3{margin-top:2px;}
+  }
+
+  /* Features */
+  .features{list-style:none; margin:56px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); column-gap:clamp(24px,4vw,48px);}
+  .features li{padding:28px 0 32px; border-top:1px solid var(--rule);}
+  .features .ico{width:40px; height:40px; border-radius:11px; display:grid; place-items:center; background:var(--surface); color:var(--green-deep); box-shadow:0 0 0 1px var(--rule), 0 1px 2px rgba(14,26,21,.04); margin-bottom:18px; transition:transform .2s var(--ease-out), box-shadow .2s ease;}
+  .features h3{font-size:18px; margin-bottom:6px;}
+  .features p{color:var(--ink-2); font-size:15.5px; max-width:36ch;}
+  @media (hover:hover) and (pointer:fine){
+    .features li:hover .ico{transform:translateY(-2px); box-shadow:0 0 0 1px var(--rule-2), 0 6px 14px -6px rgba(14,26,21,.2);}
+  }
+  @media (max-width:900px){ .features{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media (max-width:560px){ .features{grid-template-columns:1fr;} .features li{display:grid; grid-template-columns:40px 1fr; column-gap:16px;} .features .ico{grid-row:span 2; margin:0;} }
+
+  /* Ask (night band) */
+  .ask{background:var(--night); color:var(--night-text); padding:var(--section) 0; margin:0;}
+  .ask-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:clamp(40px,6vw,88px); align-items:center;}
+  .ask h2{color:#fff;}
+  .ask .section-head p{color:var(--night-muted);}
+  .ask-points{list-style:none; padding:0; margin:28px 0 0; display:grid; gap:12px; color:var(--night-text); font-size:16px;}
+  .ask-points li{display:flex; gap:12px; align-items:flex-start;}
+  .ask-points svg{flex:none; margin-top:4px; color:var(--green-glow);}
+  .chat{background:var(--night-2); border-radius:18px; box-shadow:0 0 0 1px var(--night-rule), 0 40px 80px -40px rgba(0,0,0,.6); overflow:hidden;}
+  .chat-top{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; border-bottom:1px solid var(--night-rule); font-size:13px; color:var(--night-muted);}
+  .chat-top strong{color:var(--night-text); font-weight:600;}
+  .chat-log{height:330px; padding:20px 18px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; overflow:hidden;}
+  .msg{max-width:88%; padding:11px 14px; border-radius:14px; font-size:15px; line-height:1.5;}
+  .msg-q{align-self:flex-end; background:#1E3A2F; color:#fff; border-bottom-right-radius:5px;}
+  .msg-a{align-self:flex-start; background:rgba(255,255,255,.05); box-shadow:0 0 0 1px var(--night-rule) inset; color:var(--night-text); border-bottom-left-radius:5px;}
+  .msg-a .num{color:var(--green-glow); font-weight:500;}
+  .msg.enter{animation:msgIn .3s var(--spring) both;}
+  .msg-q.enter{transform-origin:100% 100%;}
+  .msg-a.enter{transform-origin:0 100%;}
+  @keyframes msgIn{from{opacity:0; transform:translateY(8px) scale(.97);}}
+  .typing{display:inline-flex; gap:4px; padding:14px 16px;}
+  .typing i{width:6px; height:6px; border-radius:50%; background:var(--night-muted); animation:blink 1s ease-in-out infinite;}
+  .typing i:nth-child(2){animation-delay:.15s;} .typing i:nth-child(3){animation-delay:.3s;}
+  @keyframes blink{0%,80%,100%{opacity:.25; transform:translateY(0);} 40%{opacity:1; transform:translateY(-2px);}}
+  .chat-foot{padding:14px 18px 18px; border-top:1px solid var(--night-rule);}
+  .chat-foot p{font-size:12.5px; color:var(--night-muted); margin-bottom:10px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    -webkit-appearance:none; appearance:none; cursor:pointer; font:inherit; font-size:13.5px; text-align:left;
+    padding:8px 12px; border-radius:999px; border:0; color:var(--night-text);
+    background:rgba(255,255,255,.04); box-shadow:0 0 0 1px rgba(255,255,255,.14) inset;
+    transition:background-color .16s ease, box-shadow .16s ease, transform .16s var(--ease-out), color .16s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .chip:active{transform:scale(.97);}
+  .chip[aria-pressed="true"]{background:rgba(134,217,188,.12); box-shadow:0 0 0 1px rgba(134,217,188,.5) inset; color:#fff;}
+  @media (hover:hover) and (pointer:fine){ .chip:hover{background:rgba(255,255,255,.08); box-shadow:0 0 0 1px rgba(255,255,255,.24) inset;} }
+  .chip:focus-visible{outline-color:var(--green-glow);}
+  .ask .note{margin-top:14px; font-size:13px; color:var(--night-muted);}
+  @media (max-width:900px){ .ask-grid{grid-template-columns:1fr;} .chat-log{height:300px;} }
+  @media (max-width:480px){ .chat-log{height:340px; padding:16px 14px;} .msg{max-width:94%; font-size:14.5px;} .chat-top .files-count{display:none;} }
+
+  /* Security */
+  .trust{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:clamp(40px,6vw,88px); align-items:start;}
+  .trust-list{list-style:none; margin:0; padding:0; display:grid; gap:0;}
+  .trust-list li{display:grid; grid-template-columns:44px 1fr; gap:4px 18px; padding:24px 0; border-top:1px solid var(--rule);}
+  .trust-list li:last-child{border-bottom:1px solid var(--rule);}
+  .trust-list .ico{grid-row:span 2; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--green-wash); color:var(--green-deep);}
+  .trust-list p{color:var(--ink-2); grid-column:2;}
+  @media (max-width:860px){ .trust{grid-template-columns:1fr;} }
+
+  /* FAQ */
+  .faq{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:clamp(40px,6vw,88px); align-items:start;}
+  .faq-list{border-top:1px solid var(--rule-2);}
+  .faq-list details{border-bottom:1px solid var(--rule-2);}
+  .faq-list summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:20px;
+    padding:22px 2px; font-size:clamp(1.02rem, .3vw + 1rem, 1.15rem); font-weight:600; letter-spacing:-0.012em;
+    border-radius:8px; transition:color .15s ease;
+  }
+  .faq-list summary::-webkit-details-marker{display:none;}
+  .faq-list summary h3{font:inherit; letter-spacing:inherit;}
+  .plus{flex:none; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; box-shadow:0 0 0 1px var(--rule-2) inset; transition:transform .25s var(--ease-out), background-color .15s ease;}
+  .plus svg{transition:transform .25s var(--ease-out);}
+  details[open] .plus svg{transform:rotate(45deg);}
+  @media (hover:hover) and (pointer:fine){ .faq-list summary:hover{color:var(--green-deep);} .faq-list summary:hover .plus{background:var(--surface);} }
+  .faq-a{padding:0 48px 24px 2px; color:var(--ink-2); max-width:68ch;}
+  .faq-a p + p{margin-top:10px;}
+  details[open] .faq-a{animation:faqIn .24s var(--ease-out);}
+  @keyframes faqIn{from{opacity:0; transform:translateY(-4px);}}
+  @media (max-width:860px){ .faq{grid-template-columns:1fr;} .faq-a{padding-right:8px;} }
+
+  /* Final CTA */
+  .cta{position:relative; text-align:center; padding:clamp(56px,8vw,96px) var(--gutter); border-radius:24px; background:var(--ledger); overflow:hidden; box-shadow:0 0 0 1px var(--ledger-rule) inset;}
+  .cta::before{
+    /* ledger-pad ruling: this is the paper the product produces */
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, transparent 0 41px, var(--ledger-rule) 41px 42px);
+    -webkit-mask-image:linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+    mask-image:linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+    opacity:.55;
+  }
+  .cta > *{position:relative;}
+  .cta h2{font-size:clamp(2.2rem, 3.4vw + 1rem, 3.8rem); letter-spacing:-0.032em;}
+  .cta > p{margin:16px auto 0; color:var(--ink-2); max-width:46ch; font-size:clamp(1.02rem,.3vw + 1rem,1.15rem);}
+  .cta-form{margin:32px auto 0; max-width:480px; text-align:left;}
+  .cta-note{margin-top:4px; font-size:13.5px; color:var(--muted); text-align:center;}
+
+  /* Footer */
+  .site-footer{padding:56px 0 48px;}
+  .foot-row{display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;}
+  .foot-links{display:flex; flex-wrap:wrap; gap:4px 20px; list-style:none; margin:0; padding:0; font-size:14px; color:var(--muted);}
+  .foot-links a{text-decoration:none; transition:color .15s ease;}
+  @media (hover:hover){ .foot-links a:hover{color:var(--ink);} }
+  .foot-small{margin-top:24px; font-size:13px; color:var(--muted);}
+
+  /* ---------- Scroll reveal ---------- */
+  .js [data-reveal]{opacity:0; transform:translateY(14px);}
+  .js [data-reveal].in{
+    opacity:1; transform:none;
+    transition:opacity .26s ease var(--d,0ms), transform .3s var(--spring) var(--d,0ms);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .js [data-reveal]{transform:none;}
+    .js [data-reveal].in{transition:opacity .2s ease;}
+    .js .demo .ledger tbody tr{transform:none; filter:none;}
+    .js .demo .ledger tbody tr.in{transition:opacity .2s ease;}
+    .scan{display:none;}
+    .msg.enter,[data-state="success"] .success{animation:fade .2s ease both;}
+    .typing i{animation:none; opacity:.6;}
+    .spinner{animation-duration:1.5s;}
+    .btn:active,.chip:active{transform:none;}
+    @keyframes fade{from{opacity:0;}}
+  }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<header>
+<header class="site-header" id="top">
   <div class="wrap">
-    <nav>
-      <div class="logo"><span class="dot"></span>statement.work</div>
-      <div class="nav-links">
-        <a href="#product">Product</a>
-        <a href="#how">How it works</a>
-        <a href="#security">Security</a>
-      </div>
-      <a href="#early-access" class="btn btn-primary">Get early access</a>
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/" aria-label="statement.work home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F6F5C"/><rect x="16" y="14" width="24" height="32" rx="3" fill="#FAFAF8"/><rect x="21" y="21" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="28" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="35" width="9" height="3" rx="1.5" fill="#1F6F5C"/><path d="M38 30h10v14H38z" fill="#123F35"/><path d="M40.5 37.5 43 40l4-5.5" stroke="#FAFAF8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        statement.work
+      </a>
+      <ul class="nav-links">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="#early-access" class="btn btn-primary">Join the waitlist</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Bank statement conversion</div>
-    <h1 class="display">Statements in.<br>Structure out.</h1>
-    <p class="sub">Upload a bank statement — PDF, scan, or photo, any bank, any layout — and get clean CSV or Excel, categorized transactions, and plain-language answers about where the money went.</p>
-    <div class="hero-cta">
-      <a href="#early-access" class="btn btn-primary">Get early access</a>
-      <a href="#how" class="btn btn-ghost">See how it works</a>
-    </div>
+<main id="main">
 
-    <div class="ledger reveal">
-      <div class="ledger-side ledger-raw">
-        <div class="raw-card">
-          <div class="raw-line w1"></div>
-          <div class="raw-line w2"></div>
-          <div class="raw-line w3"></div>
-          <div class="raw-line w4"></div>
-          <div class="raw-line w5"></div>
-          <div class="raw-line w2"></div>
+  <!-- ===== Hero ===== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-copy">
+        <h1 id="hero-title">Stop retyping bank&nbsp;statements.</h1>
+        <p class="lede">statement.work reads bank statements (PDFs, scans, even phone photos) and turns every transaction into a clean Excel or CSV file. Any bank. Any layout. No templates to set up.</p>
+
+        <div class="hero-form" data-form-wrap>
+          <form class="waitlist" action="" method="post" novalidate data-waitlist>
+            <label for="hero-email" class="sr-only">Work email</label>
+            <input id="hero-email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@company.com" aria-describedby="hero-msg hero-note">
+            <button type="submit" class="btn btn-primary">
+              <span class="label">Join the waitlist</span>
+              <span class="spinner" aria-hidden="true"></span>
+              <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+          <p class="form-msg" id="hero-msg" role="alert" aria-live="assertive"></p>
+          <p class="success" role="status" aria-live="polite">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1F6F5C"/><path class="check" d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>You're on the list. We'll email you when it's your turn.</span>
+          </p>
+          <p class="hero-note" id="hero-note">Early access for accountants, bookkeepers and small businesses.</p>
         </div>
-        <div class="raw-label">First National Bank — statement.pdf</div>
       </div>
-      <div class="ledger-mid">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </div>
-      <div class="ledger-clean">
-        <table class="tx">
-          <tr><th>Date</th><th>Description</th><th style="text-align:right;">Amount</th></tr>
-          <tr class="tx-row"><td class="mono">07/02</td><td>Payroll deposit</td><td class="mono amt-pos" style="text-align:right;">+3,420.00</td></tr>
-          <tr class="tx-row"><td class="mono">07/03</td><td>AWS — cloud hosting</td><td class="mono amt-neg" style="text-align:right;">-214.60</td></tr>
-          <tr class="tx-row"><td class="mono">07/05</td><td>Rent — office</td><td class="mono amt-neg" style="text-align:right;">-1,850.00</td></tr>
-          <tr class="tx-row"><td class="mono">07/08</td><td>Adobe subscription</td><td class="mono amt-neg" style="text-align:right;">-52.99</td></tr>
-          <tr class="tx-row"><td class="mono">07/09</td><td>Client invoice #1042</td><td class="mono amt-pos" style="text-align:right;">+1,200.00</td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section id="how">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">How it works</div>
-      <h2>Three steps, no template required</h2>
-      <p>Every bank formats its statements differently. statement.work reads the document, not the format.</p>
-    </div>
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Upload</h3>
-        <p>Drop in a PDF export, a scanned copy, or a photo taken on your phone. Multiple statements at once is fine.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Extract</h3>
-        <p>Every line is pulled out — date, description, amount, running balance — and normalized into one consistent format.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Understand</h3>
-        <p>Export to CSV, Excel, or your accounting software, or ask a question directly and get a straight answer.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      <figure class="demo" id="demo" aria-labelledby="demo-cap">
+        <div class="demo-frame">
+          <div class="demo-bar">
+            <div class="files">
+              <span class="file file-in">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.75h5.25L12.5 5v9.25H4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 1.75V5.3h3.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                july-statement.pdf
+              </span>
+              <svg class="sep" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="file file-out">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M2 6.2h12M2 9.8h12M6.5 2.5v11" stroke="currentColor" stroke-width="1.3"/></svg>
+                july-statement.xlsx
+              </span>
+            </div>
+            <span class="status" aria-hidden="true"><span class="dot"></span><span class="num" data-status>7 transactions</span></span>
+          </div>
 
-<section id="product">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">What it does</div>
-      <h2>Built for the way statements actually look</h2>
-      <p>Not a generic OCR tool. It's tuned specifically for the layouts, fonts, and quirks of bank statements.</p>
-    </div>
-    <div class="grid-features reveal">
-      <div class="feature">
-        <div class="icon">↺</div>
-        <h3>Any bank, any layout</h3>
-        <p>Works across statement formats without needing a template mapped in advance.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">⇩</div>
-        <h3>Clean exports</h3>
-        <p>CSV, Excel, or JSON, with consistent columns every time — ready to drop into a spreadsheet.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">▤</div>
-        <h3>Automatic categorization</h3>
-        <p>Transactions sorted into categories like payroll, rent, and subscriptions without manual tagging.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">?</div>
-        <h3>Ask in plain language</h3>
-        <p>Query your own statements directly instead of scrolling through rows looking for one charge.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">!</div>
-        <h3>Anomaly flags</h3>
-        <p>Duplicate charges, fee spikes, and unusual transactions are surfaced instead of buried.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">$</div>
-        <h3>Multi-currency</h3>
-        <p>Statements in different currencies are handled without manual reformatting.</p>
-      </div>
-    </div>
-  </div>
-</section>
+          <div class="demo-body">
+            <div class="desk" aria-hidden="true">
+              <div class="page">
+                <div class="page-head">
+                  <div>
+                    <div class="bank">FIRST NATIONAL BANK</div>
+                    <div>Business Checking ••••4821</div>
+                  </div>
+                  <div class="page-meta">Statement period<br>Jul 01 – Jul 31, 2026</div>
+                </div>
+                <div class="p-cols"><span>DATE</span><span>DESCRIPTION</span><span>OUT</span><span>IN</span></div>
+                <div class="p-rows">
+                  <div class="p-row"><span class="d">07/02</span><span class="desc">POS 4821 AMZN MKTP US*2K4LT</span><span>86.40</span><span></span></div>
+                  <div class="p-row"><span class="d">07/03</span><span class="desc">STRIPE TRANSFER ST-8F2KQ</span><span></span><span>2,315.00</span></div>
+                  <div class="p-row"><span class="d">07/05</span><span class="desc">ACH DEBIT HOLLIS PROPERTY MGMT</span><span>1,850.00</span><span></span></div>
+                  <div class="p-row"><span class="d">07/08</span><span class="desc">ADOBE *CREATIVE CLD 800-833</span><span>52.99</span><span></span></div>
+                  <div class="p-row"><span class="d">07/09</span><span class="desc">ACH CREDIT HARLOW &amp; CO INV1042</span><span></span><span>1,200.00</span></div>
+                  <div class="p-row"><span class="d">07/11</span><span class="desc">MONTHLY MAINTENANCE FEE</span><span>12.00</span><span></span></div>
+                  <div class="p-row"><span class="d">07/14</span><span class="desc">AWS AMAZON WEB SERVICES</span><span>214.60</span><span></span></div>
+                </div>
+                <div class="page-foot"><span>Opening 4,210.35</span><span>Page 1 of 3</span></div>
+                <div class="scan"></div>
+              </div>
+            </div>
 
-<section>
-  <div class="wrap">
-    <div class="ask-panel reveal">
+            <div class="sheet">
+              <table class="ledger">
+                <caption class="sr-only">Example output: transactions extracted from a sample bank statement</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" class="c-date">Date</th>
+                    <th scope="col" class="c-desc">Description</th>
+                    <th scope="col" class="c-cat">Category</th>
+                    <th scope="col" class="c-amt">Amount</th>
+                    <th scope="col" class="c-bal">Balance</th>
+                    <th scope="col" class="c-tick"><span class="sr-only">Extracted</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td class="c-date num">2026-07-02</td><td>Amazon Marketplace</td><td class="c-cat"><span class="tag">Supplies</span></td><td class="c-amt num">-86.40</td><td class="c-bal num">4,123.95</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-03</td><td>Stripe payout</td><td class="c-cat"><span class="tag">Income</span></td><td class="c-amt num pos">+2,315.00</td><td class="c-bal num">6,438.95</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-05</td><td>Hollis Property Mgmt</td><td class="c-cat"><span class="tag">Rent</span></td><td class="c-amt num">-1,850.00</td><td class="c-bal num">4,588.95</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-08</td><td>Adobe Creative Cloud</td><td class="c-cat"><span class="tag">Software</span></td><td class="c-amt num">-52.99</td><td class="c-bal num">4,535.96</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-09</td><td>Harlow &amp; Co, invoice 1042</td><td class="c-cat"><span class="tag">Income</span></td><td class="c-amt num pos">+1,200.00</td><td class="c-bal num">5,735.96</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-11</td><td>Monthly maintenance fee</td><td class="c-cat"><span class="tag">Bank fees</span></td><td class="c-amt num">-12.00</td><td class="c-bal num">5,723.96</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-14</td><td>Amazon Web Services</td><td class="c-cat"><span class="tag">Software</span></td><td class="c-amt num">-214.60</td><td class="c-bal num">5,509.36</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                </tbody>
+              </table>
+              <div class="sheet-foot">
+                <span>Same columns, every bank</span>
+                <span class="exports" aria-label="Export formats"><span>CSV</span><span>Excel</span><span>JSON</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption id="demo-cap">A sample statement going in, a clean table coming out. Illustrative data.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== Pain ===== -->
+  <section class="section" aria-labelledby="pain-title">
+    <div class="wrap pain">
+      <div class="section-head" data-reveal>
+        <h2 id="pain-title">The part of the job nobody bills for.</h2>
+        <p>Every month, the same statements. Every bank, a different layout. And the numbers still have to go into a spreadsheet one way or another.</p>
+      </div>
       <div>
-        <div class="eyebrow" style="color:#7FD9BB;">Statement intelligence</div>
-        <h2>Ask your statements a question</h2>
-        <p>Skip the spreadsheet. Ask what you actually want to know, and get an answer grounded in the real transactions.</p>
-        <div class="chip-row">
-          <span class="chip">What did I spend on subscriptions in Q2?</span>
-          <span class="chip">Any duplicate charges last month?</span>
+        <ul class="pain-list">
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h7M4 12h11M4 18h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16 15l4 4M20 15l-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3>Copy from a PDF and the columns fall apart.</h3>
+            <p>Dates land in the amount column. One description splits across three cells. You fix it row by row.</p>
+          </li>
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 3"/></svg>
+            <h3>Scanned statements can't be copied at all.</h3>
+            <p>A client sends a scan, or a photo taken on their phone. Now you're typing every line by hand.</p>
+          </li>
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M9 9v11" stroke="currentColor" stroke-width="1.8"/><path d="M14 13l4 4M18 13l-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3>Templates break.</h3>
+            <p>The tool you set up for one bank chokes on the next bank's layout. So you set it up again.</p>
+          </li>
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Hours disappear.</h3>
+            <p>A long statement can eat an afternoon. Mistype one figure and the balance won't tie out.</p>
+          </li>
+        </ul>
+        <p class="pain-turn" data-reveal>statement.work does that part <span>for you.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <h2 id="how-title">From PDF to spreadsheet in three steps.</h2>
+        <p>There's no template to build and nothing to map. statement.work reads the document, not the format.</p>
+      </div>
+      <ol class="steps">
+        <li data-reveal>
+          <h3>Upload</h3>
+          <p>Drop in PDF exports, scanned copies or phone photos. Several statements at once is fine.</p>
+        </li>
+        <li data-reveal>
+          <h3>Extract</h3>
+          <p>Every line comes out with its date, description, amount and running balance, in one consistent format, whatever the bank.</p>
+        </li>
+        <li data-reveal>
+          <h3>Export, or ask</h3>
+          <p>Download CSV, Excel or JSON, bring it into your accounting software, or ask a question about it in plain words.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <h2 id="features-title">Made for the way bank statements actually look.</h2>
+        <p>This isn't a generic OCR tool. It's tuned for the layouts, fonts and quirks of bank statements.</p>
+      </div>
+      <ul class="features">
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Any bank, any layout</h3>
+          <p>No template to map in advance. A new bank's statement works the same as the last one.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 6l1.5-2.5h5L16 6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.7"/></svg></span>
+          <h3>PDFs, scans and photos</h3>
+          <p>Digital exports, scanned paper copies and phone photos all go through the same way.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3 9.5h18M3 14.5h18M9 4v16" stroke="currentColor" stroke-width="1.7"/></svg></span>
+          <h3>Clean exports</h3>
+          <p>CSV, Excel or JSON, with the same columns every time. Ready to drop into a spreadsheet.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3.5 12.6V4.5a1 1 0 011-1h8.1a1 1 0 01.7.3l7.4 7.4a1 1 0 010 1.4l-8.1 8.1a1 1 0 01-1.4 0l-7.4-7.4a1 1 0 01-.3-.7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.6" fill="currentColor"/></svg></span>
+          <h3>Categorized for you</h3>
+          <p>Payroll, rent, subscriptions and more, sorted without tagging each line by hand.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3.5l9.5 16.5h-19z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.1" fill="currentColor"/></svg></span>
+          <h3>Anomalies flagged</h3>
+          <p>Duplicate charges, fee spikes and unusual transactions surface on their own instead of hiding in row 214.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.3-3.8-8.5S9.4 5.9 12 3.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <h3>Multi-currency</h3>
+          <p>Statements in different currencies are handled without manual reformatting.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Ask ===== -->
+  <section class="ask" id="ask" aria-labelledby="ask-title">
+    <div class="wrap ask-grid">
+      <div class="section-head" data-reveal>
+        <h2 id="ask-title">Ask your statements a question.</h2>
+        <p>Skip the filters and pivot tables. Ask what you actually want to know, in plain words, and get an answer built from the real transactions.</p>
+        <ul class="ask-points">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Totals by category, vendor or period</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Duplicate charges and fee spikes</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>That one charge you can't find</li>
+        </ul>
+      </div>
+
+      <div data-reveal style="--d:60ms">
+        <div class="chat" id="chat">
+          <div class="chat-top">
+            <strong>Ask statement.work</strong>
+            <span class="files-count">Business Checking, Jan–Sep 2026</span>
+          </div>
+          <div class="chat-log" id="chat-log" aria-live="polite" aria-atomic="false">
+            <div class="msg msg-q">What did we spend on software subscriptions in Q2?</div>
+            <div class="msg msg-a"><span class="num">$1,842.30</span> across 14 charges. Adobe and AWS make up 68% of it, and AWS jumped by <span class="num">$214</span> in June after an added instance.</div>
+          </div>
+          <div class="chat-foot">
+            <p id="chips-label">Try a question</p>
+            <div class="chips" role="group" aria-labelledby="chips-label">
+              <button type="button" class="chip" data-q="0" aria-pressed="true">What did we spend on software in Q2?</button>
+              <button type="button" class="chip" data-q="1" aria-pressed="false">Any duplicate charges last month?</button>
+              <button type="button" class="chip" data-q="2" aria-pressed="false">Did any bank fees go up?</button>
+            </div>
+          </div>
+        </div>
+        <p class="note">Sample conversation. Figures are illustrative.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Security ===== -->
+  <section class="section" id="security" aria-labelledby="security-title" style="padding-top:var(--section)">
+    <div class="wrap trust">
+      <div class="section-head" data-reveal>
+        <h2 id="security-title">Handled like the sensitive documents they are.</h2>
+        <p>Bank statements carry account numbers, balances and your clients' business. They're treated that way from upload to deletion.</p>
+      </div>
+      <ul class="trust-list">
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V8a4 4 0 018 0v2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <h3>Encrypted in transit and at rest</h3>
+          <p>From the moment you upload a statement, through processing.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.5 11v5.5M13.5 11v5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <h3>Deleted after processing</h3>
+          <p>Source files are removed once your export is ready, on a retention window you control.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Never used to train models</h3>
+          <p>Your financial data stays yours. It isn't used to train or fine-tune anything.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq">
+      <div class="section-head" data-reveal>
+        <h2 id="faq-title">Questions, answered.</h2>
+        <p>What people usually want to know about converting bank statements with statement.work.</p>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary><h3>How do I convert a bank statement PDF to Excel?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a">
+            <p>Upload the PDF to statement.work and download the result as an Excel file. It reads every transaction (date, description, amount and running balance) and puts each one in the right column, so there's nothing to copy, paste or retype.</p>
+            <p>statement.work is in early access. <a href="#early-access">Join the waitlist</a> to get in.</p>
+          </div>
+        </details>
+        <details>
+          <summary><h3>Can I convert a bank statement PDF to CSV?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Yes. Every statement can be exported as CSV, Excel or JSON, with the same consistent columns every time, ready to open in a spreadsheet or import into accounting software.</p></div>
+        </details>
+        <details>
+          <summary><h3>Does it work with scanned bank statements and phone photos?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Yes. statement.work reads scanned copies and photos taken on a phone as well as digital PDF exports. It reads the document itself, so the statement doesn't need selectable text.</p></div>
+        </details>
+        <details>
+          <summary><h3>Which banks does statement.work support?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>statement.work is built to work with statements from any bank, without a template mapped in advance. Every bank formats its statements differently, so it reads the document instead of relying on a fixed layout.</p></div>
+        </details>
+        <details>
+          <summary><h3>What is bank statement OCR?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Bank statement OCR is software that reads the text and numbers on a statement, whether a PDF or an image, and turns them into structured data such as a spreadsheet. statement.work is tuned for the layouts, fonts and quirks of bank statements rather than documents in general.</p></div>
+        </details>
+        <details>
+          <summary><h3>Can I convert several bank statements at once?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Yes. You can upload several statements in one go, and each one comes out in the same consistent format, whichever bank it came from.</p></div>
+        </details>
+        <details>
+          <summary><h3>Is my financial data safe?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Statements are encrypted in transit and at rest, source files are deleted after processing on a retention window you control, and your data is never used to train or fine-tune AI models.</p></div>
+        </details>
+        <details>
+          <summary><h3>Who is statement.work for?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>statement.work is for accountants, bookkeepers and small businesses who spend time turning bank statements into spreadsheets, whether for bookkeeping, month-end close or tax prep.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Final CTA ===== -->
+  <section class="section" id="early-access" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="cta" data-reveal>
+        <h2 id="cta-title">Get your afternoons back.</h2>
+        <p>We're onboarding a first group of accountants, bookkeepers and small businesses. Add your email to get early access.</p>
+        <div class="cta-form" data-form-wrap>
+          <form class="waitlist" id="waitlist-form" action="" method="post" novalidate data-waitlist>
+            <label for="waitlist-email" class="sr-only">Work email</label>
+            <input id="waitlist-email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@company.com" aria-describedby="cta-msg cta-note">
+            <button type="submit" class="btn btn-primary">
+              <span class="label">Join the waitlist</span>
+              <span class="spinner" aria-hidden="true"></span>
+              <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+          <p class="form-msg" id="cta-msg" role="alert" aria-live="assertive"></p>
+          <p class="success" id="thanks-msg" role="status" aria-live="polite">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1F6F5C"/><path class="check" d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>You're on the list. We'll email you when it's your turn.</span>
+          </p>
+          <p class="cta-note" id="cta-note">No spam. One email when it's your turn.</p>
         </div>
       </div>
-      <div class="mock-chat">
-        <div class="mock-q">"What did I spend on software subscriptions in Q2?"</div>
-        <div class="mock-a">Total was <span class="figure mono">$1,842.30</span> across 14 charges. Adobe and AWS made up 68% of that, with a $214 spike in June from an added AWS instance.</div>
-      </div>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
-<section id="security">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">Handled carefully</div>
-      <h2>Your statements, treated like the sensitive documents they are</h2>
-    </div>
-    <div class="trust-list reveal">
-      <div class="trust-item">
-        <h3>Encrypted end to end</h3>
-        <p>Statements are encrypted in transit and at rest, from upload through processing.</p>
-      </div>
-      <div class="trust-item">
-        <h3>Deleted after processing</h3>
-        <p>Source files are removed once your export is ready, on a retention window you control.</p>
-      </div>
-      <div class="trust-item">
-        <h3>Never used to train models</h3>
-        <p>Your financial data stays yours. It isn't used to train or fine-tune anything.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="early-access">
-  <div class="wrap">
-    <div class="cta-band reveal">
-      <h2>Get early access</h2>
-      <p>We're onboarding a first group of accountants, bookkeepers, and small businesses.</p>
-      <form class="cta-form" id="waitlist-form">
-        <input type="email" required placeholder="you@company.com" id="waitlist-email">
-        <button type="submit" class="btn btn-primary">Join waitlist</button>
-      </form>
-      <p class="cta-note">No spam. One email when it's your turn.</p>
-      <p class="thanks" id="thanks-msg">You're on the list — we'll be in touch.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
+<footer class="site-footer">
   <div class="wrap">
     <div class="foot-row">
-      <div class="logo"><span class="dot"></span>statement.work</div>
-      <div class="foot-links">
-        <a href="#product">Product</a>
-        <a href="#how">How it works</a>
-        <a href="#security">Security</a>
-      </div>
+      <a class="brand" href="/" aria-label="statement.work home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F6F5C"/><rect x="16" y="14" width="24" height="32" rx="3" fill="#FAFAF8"/><rect x="21" y="21" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="28" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="35" width="9" height="3" rx="1.5" fill="#1F6F5C"/><path d="M38 30h10v14H38z" fill="#123F35"/><path d="M40.5 37.5 43 40l4-5.5" stroke="#FAFAF8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        statement.work
+      </a>
+      <ul class="foot-links">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#early-access">Early access</a></li>
+      </ul>
     </div>
-    <p class="foot-small">© 2026 statement.work. Built for people who'd rather not read a PDF by hand.</p>
+    <p class="foot-small">© 2026 statement.work. A bank statement converter for people who'd rather not read a PDF by hand.</p>
   </div>
 </footer>
 
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('is-visible'); });
-  }, {threshold:0.15});
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var wait = function(ms){ return new Promise(function(r){ setTimeout(r, ms); }); };
 
-  const form = document.getElementById('waitlist-form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    form.style.display = 'none';
-    document.getElementById('thanks-msg').style.display = 'block';
+  /* Header hairline once the page scrolls */
+  var header = document.querySelector('.site-header');
+  var onScroll = function(){ header.classList.toggle('scrolled', window.scrollY > 4); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* Scroll reveals: short stagger within each group */
+  var revealIO = new IntersectionObserver(function(entries){
+    var batch = entries.filter(function(e){ return e.isIntersecting; });
+    batch.forEach(function(e, i){
+      var el = e.target;
+      if (!el.style.getPropertyValue('--d')) el.style.setProperty('--d', Math.min(i, 5) * 50 + 'ms');
+      el.classList.add('in');
+      revealIO.unobserve(el);
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.12});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){ revealIO.observe(el); });
+
+  /* ---------- Hero demo: rows extract one by one ---------- */
+  var demo = document.getElementById('demo');
+  var rows = Array.prototype.slice.call(demo.querySelectorAll('.ledger tbody tr'));
+  var pRows = Array.prototype.slice.call(demo.querySelectorAll('.p-row'));
+  var scan = demo.querySelector('.scan');
+  var status = demo.querySelector('[data-status]');
+  var total = rows.length;
+  var visible = true;
+
+  function showAll(){
+    rows.forEach(function(r){ r.classList.remove('out'); r.classList.add('in'); });
+    pRows.forEach(function(p){ p.classList.add('read'); });
+    demo.classList.add('done'); demo.classList.remove('running');
+    status.textContent = total + ' transactions';
+  }
+  function whenVisible(){
+    return new Promise(function(resolve){
+      (function check(){ if (visible && !document.hidden) resolve(); else setTimeout(check, 300); })();
+    });
+  }
+  function moveScan(i){
+    var p = pRows[i];
+    scan.style.height = (p.offsetHeight + 2) + 'px';
+    scan.style.transform = 'translateY(' + (p.offsetTop - 1) + 'px)';
+  }
+  async function loop(){
+    while (true){
+      if (reduce.matches){ showAll(); return; }
+      await whenVisible();
+      demo.classList.remove('done');
+      demo.classList.add('running');
+      for (var i = 0; i < total; i++){
+        await whenVisible();
+        moveScan(i);
+        status.textContent = 'Extracting ' + (i + 1) + ' of ' + total;
+        await wait(300);
+        pRows[i].classList.add('read');
+        rows[i].classList.remove('out');
+        rows[i].classList.add('in');
+        await wait(260);
+      }
+      demo.classList.remove('running');
+      demo.classList.add('done');
+      status.textContent = total + ' transactions';
+      await wait(3600);
+      await whenVisible();
+      rows.forEach(function(r){ r.classList.add('out'); r.classList.remove('in'); });
+      pRows.forEach(function(p){ p.classList.remove('read'); });
+      await wait(450);
+      rows.forEach(function(r){ r.classList.remove('out'); });
+    }
+  }
+  new IntersectionObserver(function(entries){ visible = entries[0].isIntersecting; }, {threshold:0.2}).observe(demo);
+  reduce.addEventListener && reduce.addEventListener('change', function(){ if (reduce.matches) showAll(); });
+  setTimeout(loop, 450);
+
+  /* ---------- Ask: live chat ---------- */
+  var log = document.getElementById('chat-log');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var convo = [
+    { q:'What did we spend on software subscriptions in Q2?',
+      a:'<span class="num">$1,842.30</span> across 14 charges. Adobe and AWS make up 68% of it, and AWS jumped by <span class="num">$214</span> in June after an added instance.' },
+    { q:'Any duplicate charges last month?',
+      a:'One. Two identical Adobe Creative Cloud charges of <span class="num">$52.99</span>, both posted on Aug 8. Everything else appears once.' },
+    { q:'Did any bank fees go up this year?',
+      a:'Yes. The monthly maintenance fee went from <span class="num">$12.00</span> to <span class="num">$18.00</span> starting in July. Wire fees stayed flat at <span class="num">$25.00</span>.' }
+  ];
+  var busy = false, played = false;
+
+  function bubble(cls, html){
+    var d = document.createElement('div');
+    d.className = 'msg ' + cls + ' enter';
+    d.innerHTML = html;
+    log.appendChild(d);
+    while (log.children.length > 4) log.removeChild(log.firstElementChild);
+    return d;
+  }
+  async function ask(i){
+    if (busy) return;
+    busy = true;
+    chips.forEach(function(c, k){ c.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    var fast = reduce.matches;
+    bubble('msg-q', convo[i].q);
+    await wait(fast ? 0 : 260);
+    var t = bubble('msg-a', '<span class="typing" aria-label="Answering"><i></i><i></i><i></i></span>');
+    t.style.padding = '0';
+    await wait(fast ? 150 : 900);
+    t.remove();
+    bubble('msg-a', convo[i].a);
+    busy = false;
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){ played = true; ask(+c.dataset.q); });
   });
-</script>
+  /* Replay the first exchange live when the chat scrolls into view */
+  new IntersectionObserver(function(entries, io){
+    if (!entries[0].isIntersecting || played) return;
+    io.disconnect(); played = true;
+    if (reduce.matches) return;
+    log.innerHTML = '';
+    setTimeout(function(){ ask(0); }, 250);
+  }, {threshold:0.5}).observe(document.getElementById('chat'));
 
+  /* ---------- Waitlist forms ---------- */
+  document.querySelectorAll('[data-waitlist]').forEach(function(form){
+    var wrap = form.closest('[data-form-wrap]');
+    var input = form.querySelector('input[type="email"]');
+    var btn = form.querySelector('button');
+    var label = btn.querySelector('.label');
+    var msg = wrap.querySelector('.form-msg');
+
+    function setError(text){
+      msg.textContent = text;
+      form.classList.add('invalid');
+      input.setAttribute('aria-invalid', 'true');
+    }
+    function clearError(){
+      msg.textContent = '';
+      form.classList.remove('invalid');
+      input.removeAttribute('aria-invalid');
+    }
+    input.addEventListener('input', function(){ if (form.classList.contains('invalid')) clearError(); });
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      input.value = input.value.trim();
+      if (!input.value){ setError('Enter your email to join the waitlist.'); input.focus(); return; }
+      if (!input.checkValidity()){ setError('That email doesn\'t look right. Check it and try again.'); input.focus(); return; }
+      clearError();
+
+      btn.disabled = true; btn.classList.add('is-loading'); form.setAttribute('aria-busy', 'true');
+      label.textContent = 'Joining…';
+      try {
+        /* Set the form's action attribute to a waitlist endpoint to send signups there. */
+        var endpoint = form.getAttribute('action');
+        if (endpoint){
+          var res = await fetch(endpoint, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } });
+          if (!res.ok) throw new Error('Request failed');
+        } else {
+          await wait(350);
+        }
+        wrap.setAttribute('data-state', 'success');
+        wrap.querySelector('.success').focus && wrap.querySelector('.success').setAttribute('tabindex', '-1');
+      } catch (err) {
+        setError('Something went wrong on our side. Try again in a moment.');
+      } finally {
+        btn.disabled = false; btn.classList.remove('is-loading'); form.removeAttribute('aria-busy');
+        label.textContent = 'Join the waitlist';
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
