@@ -285,6 +285,7 @@
     font:inherit; font-size:16px; color:var(--ink); border-radius:8px;
   }
   .waitlist input::placeholder{color:#7D8883;}
+  .waitlist .hp{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; opacity:0; pointer-events:none;}
   .waitlist input:focus{outline:none;}
   .waitlist .btn{flex:none;}
   .btn .label{transition:opacity .15s ease, filter .15s ease;}
@@ -610,9 +611,10 @@
         <p class="lede">statement.work reads bank statements (PDFs, scans, even phone photos) and turns every transaction into a clean Excel or CSV file. Any bank. Any layout. No templates to set up.</p>
 
         <div class="hero-form" data-form-wrap>
-          <form class="waitlist" action="" method="post" novalidate data-waitlist>
+          <form class="waitlist" action="https://script.google.com/macros/s/AKfycbxGp51OA5v87-msg7tLyDVGcoIhT03ok_PcIegCnxAU71w0YBHYiHhJyyLzd3t32wef7w/exec" method="post" novalidate data-waitlist>
             <label for="hero-email" class="sr-only">Work email</label>
             <input id="hero-email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@company.com" aria-describedby="hero-msg hero-note">
+            <div class="hp" aria-hidden="true"><label for="hero-website">Website</label><input id="hero-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
             <button type="submit" class="btn btn-primary">
               <span class="label">Join the waitlist</span>
               <span class="spinner" aria-hidden="true"></span>
@@ -924,9 +926,10 @@
         <h2 id="cta-title">Get your afternoons back.</h2>
         <p>We're onboarding a first group of accountants, bookkeepers and small businesses. Add your email to get early access.</p>
         <div class="cta-form" data-form-wrap>
-          <form class="waitlist" id="waitlist-form" action="" method="post" novalidate data-waitlist>
+          <form class="waitlist" id="waitlist-form" action="https://script.google.com/macros/s/AKfycbxGp51OA5v87-msg7tLyDVGcoIhT03ok_PcIegCnxAU71w0YBHYiHhJyyLzd3t32wef7w/exec" method="post" novalidate data-waitlist>
             <label for="waitlist-email" class="sr-only">Work email</label>
             <input id="waitlist-email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@company.com" aria-describedby="cta-msg cta-note">
+            <div class="hp" aria-hidden="true"><label for="cta-website">Website</label><input id="cta-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
             <button type="submit" class="btn btn-primary">
               <span class="label">Join the waitlist</span>
               <span class="spinner" aria-hidden="true"></span>
@@ -1093,6 +1096,7 @@
   document.querySelectorAll('[data-waitlist]').forEach(function(form){
     var wrap = form.closest('[data-form-wrap]');
     var input = form.querySelector('input[type="email"]');
+    var honeypot = form.querySelector('input[name="website"]');
     var btn = form.querySelector('button');
     var label = btn.querySelector('.label');
     var msg = wrap.querySelector('.form-msg');
@@ -1113,24 +1117,24 @@
       e.preventDefault();
       input.value = input.value.trim();
       if (!input.value){ setError('Enter your email to join the waitlist.'); input.focus(); return; }
-      if (!input.checkValidity()){ setError('That email doesn\'t look right. Check it and try again.'); input.focus(); return; }
+      if (!input.checkValidity() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.value)){ setError('That email doesn\'t look right. Check it and try again.'); input.focus(); return; }
       clearError();
 
       btn.disabled = true; btn.classList.add('is-loading'); form.setAttribute('aria-busy', 'true');
       label.textContent = 'Joining…';
       try {
-        /* Set the form's action attribute to a waitlist endpoint to send signups there. */
-        var endpoint = form.getAttribute('action');
-        if (endpoint){
-          var res = await fetch(endpoint, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } });
-          if (!res.ok) throw new Error('Request failed');
-        } else {
-          await wait(350);
-        }
+        /* Signups go to a Google Apps Script. It sends no CORS headers, so the request is
+           no-cors and the response is opaque: a resolved fetch counts as sent, a network failure rejects. */
+        var body = new URLSearchParams({
+          email: input.value,
+          source: 'website',
+          website: honeypot ? honeypot.value : ''
+        });
+        await fetch(form.getAttribute('action'), { method:'POST', mode:'no-cors', body:body });
         wrap.setAttribute('data-state', 'success');
         wrap.querySelector('.success').focus && wrap.querySelector('.success').setAttribute('tabindex', '-1');
       } catch (err) {
-        setError('Something went wrong on our side. Try again in a moment.');
+        setError('We couldn\'t add you just now. Check your connection and try again.');
       } finally {
         btn.disabled = false; btn.classList.remove('is-loading'); form.removeAttribute('aria-busy');
         label.textContent = 'Join the waitlist';
