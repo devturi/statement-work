@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#1F6F5C"/>
-  <rect x="16" y="14" width="24" height="32" rx="3" fill="#FAFAF8"/>
-  <rect x="21" y="21" width="14" height="3" rx="1.5" fill="#1F6F5C"/>
-  <rect x="21" y="28" width="14" height="3" rx="1.5" fill="#1F6F5C"/>
-  <rect x="21" y="35" width="9" height="3" rx="1.5" fill="#1F6F5C"/>
-  <path d="M38 30 L48 30 L48 44 L38 44 Z" fill="#123F35"/>
-  <path d="M40.5 37.5 L43 40 L47 34.5" stroke="#FAFAF8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 4 40 40" width="40" height="40" role="img" aria-label="statement.work"><style>@media (prefers-color-scheme:dark){.sq{fill:#FFFFFF}.s{fill:#0B0F14}}</style><rect class="sq" x="4" y="4" width="40" height="40" rx="11" fill="#0B0F14"/><path class="s" fill="#FFFFFF" d="M26.43 21.08 22.56 21.31Q22.41 20.58 21.76 20.06Q21.1 19.53 19.99 19.53Q19.01 19.53 18.34 19.94Q17.68 20.35 17.68 21.04Q17.68 21.58 18.11 21.97Q18.54 22.36 19.6 22.58L22.37 23.13Q24.6 23.58 25.69 24.59Q26.79 25.6 26.79 27.26Q26.79 28.77 25.91 29.9Q25.04 31.03 23.51 31.67Q21.97 32.3 19.99 32.3Q16.96 32.3 15.16 31.03Q13.36 29.76 13.06 27.58L17.2 27.37Q17.41 28.29 18.13 28.77Q18.86 29.25 19.99 29.25Q21.1 29.25 21.79 28.81Q22.48 28.38 22.48 27.71Q22.48 26.57 20.51 26.18L17.87 25.63Q15.64 25.18 14.55 24.08Q13.46 22.99 13.46 21.28Q13.46 19.8 14.26 18.74Q15.07 17.67 16.53 17.1Q17.98 16.52 19.94 16.52Q22.84 16.52 24.5 17.75Q26.16 18.97 26.43 21.08Z"/><rect x="28.5" y="26" width="6" height="6" rx="1.5" fill="#10B981"/></svg>

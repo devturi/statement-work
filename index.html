@@ -16,19 +16,20 @@
 <meta property="og:title" content="statement.work: stop retyping bank statements">
 <meta property="og:description" content="Turn bank statement PDFs, scans and phone photos into clean Excel or CSV. Any bank, any layout, no templates.">
 <meta property="og:image" content="https://statement.work/og-image.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A bank statement PDF converted into a clean table of dated, categorized transactions.">
+<meta property="og:image:alt" content="statement.work logo with the headline: Stop retyping bank statements.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="statement.work: stop retyping bank statements">
 <meta name="twitter:description" content="Turn bank statement PDFs, scans and phone photos into clean Excel or CSV. Any bank, any layout, no templates.">
 <meta name="twitter:image" content="https://statement.work/og-image.png">
-<meta name="twitter:image:alt" content="A bank statement PDF converted into a clean table of dated, categorized transactions.">
+<meta name="twitter:image:alt" content="statement.work logo with the headline: Stop retyping bank statements.">
 
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly summary">
 
@@ -46,9 +47,12 @@
       "logo": {
         "@type": "ImageObject",
         "url": "https://statement.work/icon-512.png",
+        "contentUrl": "https://statement.work/icon-512.png",
         "width": 512,
-        "height": 512
-      }
+        "height": 512,
+        "caption": "statement.work"
+      },
+      "image": "https://statement.work/logo-mark.svg"
     },
     {
       "@type": "WebSite",
@@ -249,8 +253,10 @@
   }
   .site-header.scrolled{box-shadow:0 1px 0 var(--rule);}
   .nav{display:flex; align-items:center; justify-content:space-between; height:64px; gap:24px;}
-  .brand{display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:650; font-size:17px; letter-spacing:-0.02em;}
-  .brand svg{width:24px; height:24px;}
+  .brand{display:inline-flex; align-items:center; gap:8px; text-decoration:none;}
+  .brand .mark{width:28px; height:28px; margin-left:-2px;}
+  .brand .wm{height:17px; width:auto;}
+  @media (max-width:420px){ .brand .wm{height:14px;} }
   .nav-links{display:flex; gap:4px; margin:0; padding:0; list-style:none;}
   .nav-links a{display:block; padding:8px 12px; border-radius:8px; font-size:14.5px; color:var(--ink-2); text-decoration:none; transition:color .15s ease, background-color .15s ease;}
   @media (hover:hover) and (pointer:fine){ .nav-links a:hover{color:var(--ink); background:rgba(14,26,21,.05);} }
@@ -580,8 +586,8 @@
   <div class="wrap">
     <nav class="nav" aria-label="Main">
       <a class="brand" href="/" aria-label="statement.work home">
-        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F6F5C"/><rect x="16" y="14" width="24" height="32" rx="3" fill="#FAFAF8"/><rect x="21" y="21" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="28" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="35" width="9" height="3" rx="1.5" fill="#1F6F5C"/><path d="M38 30h10v14H38z" fill="#123F35"/><path d="M40.5 37.5 43 40l4-5.5" stroke="#FAFAF8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        statement.work
+        <img class="mark" src="/logo-mark.svg" width="28" height="28" alt="">
+        <img class="wm" src="/logo-wordmark.svg" width="170" height="17" alt="">
       </a>
       <ul class="nav-links">
         <li><a href="#how">How it works</a></li>
@@ -943,8 +949,8 @@
   <div class="wrap">
     <div class="foot-row">
       <a class="brand" href="/" aria-label="statement.work home">
-        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F6F5C"/><rect x="16" y="14" width="24" height="32" rx="3" fill="#FAFAF8"/><rect x="21" y="21" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="28" width="14" height="3" rx="1.5" fill="#1F6F5C"/><rect x="21" y="35" width="9" height="3" rx="1.5" fill="#1F6F5C"/><path d="M38 30h10v14H38z" fill="#123F35"/><path d="M40.5 37.5 43 40l4-5.5" stroke="#FAFAF8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        statement.work
+        <img class="mark" src="/logo-mark.svg" width="28" height="28" alt="">
+        <img class="wm" src="/logo-wordmark.svg" width="170" height="17" alt="">
       </a>
       <ul class="foot-links">
         <li><a href="#how">How it works</a></li>
