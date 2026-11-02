@@ -1,0 +1,17 @@
+---
+import WaitlistForm from './WaitlistForm.astro';
+interface Props { heading?: string; text?: string }
+const {
+  heading = 'Get your afternoons back.',
+  text = "We're onboarding a first group of accountants, bookkeepers and small businesses. Add your email to get early access.",
+} = Astro.props;
+---
+<section class="section" id="early-access" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta" data-reveal>
+      <h2 id="cta-title">{heading}</h2>
+      <p>{text}</p>
+      <WaitlistForm variant="cta" />
+    </div>
+  </div>
+</section>

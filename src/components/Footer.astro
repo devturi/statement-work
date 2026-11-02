@@ -1,0 +1,39 @@
+---
+import Brand from './Brand.astro';
+import { getCollection } from 'astro:content';
+import { byOrder, getGuides, landingPath } from '../lib/pages';
+
+const convert = (await getCollection('convert')).sort(byOrder);
+const audiences = (await getCollection('audiences')).sort(byOrder);
+const guides = (await getGuides()).slice(0, 5);
+const cols = [
+  { title: 'Convert', links: [{ href: '/convert/', label: 'All conversions' }, ...convert.map((e) => ({ href: landingPath.convert(e.id), label: e.data.nav ?? e.data.title }))] },
+  { title: 'Guides', links: [{ href: '/guides/', label: 'All guides' }, ...guides.map((e) => ({ href: landingPath.guides(e.id), label: e.data.title }))] },
+  { title: 'Who it’s for', links: [{ href: '/for/', label: 'Overview' }, ...audiences.map((e) => ({ href: landingPath.audiences(e.id), label: e.data.nav ?? e.data.title }))] },
+  { title: 'statement.work', links: [
+    { href: '/', label: 'Home' },
+    { href: '/banks/', label: 'Banks' },
+    { href: '/faq/', label: 'FAQ' },
+    { href: '/security/', label: 'Security' },
+    { href: '/glossary/', label: 'Glossary' },
+    { href: '/#early-access', label: 'Early access' },
+  ] },
+];
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <Brand />
+        <p>A bank statement converter for people who’d rather not read a PDF by hand.</p>
+      </div>
+      {cols.map((c) => (
+        <nav class="foot-col" aria-label={c.title}>
+          <p class="foot-title">{c.title}</p>
+          <ul>{c.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        </nav>
+      ))}
+    </div>
+    <p class="foot-small">© 2026 statement.work · <a href="/rss.xml">RSS</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/llms.txt">llms.txt</a></p>
+  </div>
+</footer>

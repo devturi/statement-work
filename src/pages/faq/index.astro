@@ -1,0 +1,33 @@
+---
+import PageShell from '../../layouts/PageShell.astro';
+import FaqList from '../../components/FaqList.astro';
+import { FAQ_GROUPS, ALL_FAQS } from '../../data/faq';
+import { STATIC_PAGES } from '../../lib/pages';
+import { faqPage } from '../../lib/schema';
+
+const page = STATIC_PAGES.find((p) => p.path === '/faq/')!;
+---
+<PageShell
+  metaTitle="Bank Statement Converter FAQ: PDF to Excel, CSV, OCR & Security | statement.work"
+  description={page.description}
+  path={page.path}
+  title="Frequently asked questions"
+  lede="Short, direct answers about converting bank statements with statement.work: getting PDFs, scans and photos into Excel or CSV, export formats, checking accuracy, security, and early access."
+  updated={page.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'FAQ', path: '/faq/' }]}
+  related={['/convert/', '/security/', '/guides/', '/glossary/']}
+  extraJsonLd={[faqPage(page.path, ALL_FAQS)]}
+  wide
+>
+  <nav class="toc-inline" aria-label="FAQ topics">
+    <ul>{FAQ_GROUPS.map((g) => <li><a href={`#${g.id}`}>{g.title}</a></li>)}</ul>
+  </nav>
+  {FAQ_GROUPS.map((g, gi) => (
+    <section class="faq-group" id={g.id} aria-labelledby={`${g.id}-title`}>
+      <h2 id={`${g.id}-title`}>{g.title}</h2>
+      <p>{g.intro}</p>
+      <FaqList faqs={g.items} openFirst={gi === 0} />
+    </section>
+  ))}
+  <p>Can't find your question? The <a href="/guides/">guides</a> go deeper on converting, categorizing and reconciling statement data, and the <a href="/glossary/">glossary</a> defines the terms.</p>
+</PageShell>

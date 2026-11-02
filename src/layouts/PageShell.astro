@@ -1,0 +1,65 @@
+---
+/**
+ * Shared template for content pages (convert, audiences, banks, security, glossary, FAQ).
+ * Breadcrumbs, one H1, a direct-answer lede, a visible "Last updated" date,
+ * the page body, optional FAQ, related links and the waitlist CTA.
+ */
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FaqList from '../components/FaqList.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { breadcrumbList, faqPage, webPage, softwareApplication, type Crumb } from '../lib/schema';
+import { isoDate, prettyDate } from '../lib/site';
+
+interface Props {
+  metaTitle: string;
+  description: string;
+  path: string;
+  title: string;
+  lede: string;
+  updated: Date;
+  crumbs: Crumb[];
+  faqs?: { q: string; a: string }[];
+  faqHeading?: string;
+  related: string[];
+  software?: boolean;
+  extraJsonLd?: object[];
+  wide?: boolean;
+  ctaHeading?: string;
+  ctaText?: string;
+}
+const { metaTitle, description, path, title, lede, updated, crumbs, faqs = [], faqHeading = 'Questions', related, software = false, extraJsonLd = [], wide = false, ctaHeading, ctaText } = Astro.props;
+const jsonLd = [
+  webPage(path, title, description, updated),
+  breadcrumbList(crumbs),
+  ...(software ? [softwareApplication] : []),
+  ...(faqs.length ? [faqPage(path, faqs)] : []),
+  ...extraJsonLd,
+];
+---
+<Base title={metaTitle} description={description} path={path} ogTitle={title} jsonLd={jsonLd}>
+  <article class="doc">
+    <header class="doc-hero">
+      <div class="wrap">
+        <Breadcrumbs crumbs={crumbs} />
+        <h1>{title}</h1>
+        <p class="doc-lede">{lede}</p>
+        <p class="doc-meta"><span>Last updated <time datetime={isoDate(updated)}>{prettyDate(updated)}</time></span></p>
+      </div>
+    </header>
+    <div class="wrap">
+      <div class:list={['prose', { 'prose-wide': wide }]}>
+        <slot />
+      </div>
+      {faqs.length > 0 && (
+        <section class="doc-faq" aria-labelledby="doc-faq-title">
+          <h2 id="doc-faq-title">{faqHeading}</h2>
+          <FaqList faqs={faqs} />
+        </section>
+      )}
+      <RelatedLinks paths={related} />
+    </div>
+  </article>
+  <CtaBand heading={ctaHeading} text={ctaText} />
+</Base>

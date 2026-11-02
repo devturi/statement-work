@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+const hubs = [
+  { href: '/', label: 'Home', text: 'What statement.work does, in one page.' },
+  { href: '/convert/', label: 'Convert', text: 'PDF, scan or photo to Excel, CSV or JSON.' },
+  { href: '/guides/', label: 'Guides', text: 'Practical guides to working with bank statement data.' },
+  { href: '/faq/', label: 'FAQ', text: 'Short answers to common questions.' },
+  { href: '/security/', label: 'Security', text: 'How your statements are handled.' },
+];
+---
+<Base title="Page not found | statement.work" description="This page doesn't exist. Find your way back to statement.work's converter pages, guides and FAQ." path="/404/" ogImage="/og-image.png" noindex>
+  <section class="doc-hero notfound">
+    <div class="wrap">
+      <p class="nf-code num" aria-hidden="true">404</p>
+      <h1>This page isn't on the statement.</h1>
+      <p class="doc-lede">The link may be old, or the address may have a typo. These pages are a good place to pick up again.</p>
+      <ul class="link-rows">
+        {hubs.map((h) => <li><a href={h.href}><span class="lr-title">{h.label}</span><span class="lr-desc">{h.text}</span></a></li>)}
+      </ul>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

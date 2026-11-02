@@ -1,0 +1,55 @@
+---
+import PageShell from '../../layouts/PageShell.astro';
+import { STATIC_PAGES } from '../../lib/pages';
+
+const page = STATIC_PAGES.find((p) => p.path === '/security/')!;
+const faqs = [
+  { q: 'Is statement.work safe for client bank statements?', a: 'statement.work encrypts statements in transit and at rest, deletes source files after processing on a retention window you control, and never uses your data to train or fine-tune AI models.' },
+  { q: 'Does statement.work use my statements to train AI?', a: 'No. Your financial data is never used to train or fine-tune any model.' },
+  { q: 'When are uploaded statements deleted?', a: 'Source files are removed once your export is ready, on a retention window you control.' },
+];
+---
+<PageShell
+  metaTitle="Security: How statement.work Handles Bank Statements | statement.work"
+  description={page.description}
+  path={page.path}
+  title="Security and data handling"
+  lede="Bank statements carry account numbers, balances and other people's business, so statement.work treats them that way: encrypted in transit and at rest, deleted after processing, and never used to train AI models."
+  updated={page.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Security', path: '/security/' }]}
+  faqs={faqs}
+  related={['/guides/is-it-safe-to-upload-bank-statements-online/', '/faq/', '/for/accountants/', '/convert/']}
+>
+  <h2>Three commitments</h2>
+  <p>These are the commitments statement.work makes about your statements. This page explains each one and what it means in practice. It deliberately doesn't claim more than that.</p>
+
+  <h3>1. Encrypted in transit and at rest</h3>
+  <p>Statements are encrypted while they travel from your browser to statement.work and while they are stored, from the moment you upload through processing. "In transit" covers the network connection; "at rest" covers the stored file. Both matter: encryption in transit stops someone reading the file on the way, and encryption at rest protects it where it is kept.</p>
+
+  <h3>2. Deleted after processing</h3>
+  <p>Source files are removed once your export is ready, on a retention window you control. The original statement is the most sensitive thing you upload: it shows the full account picture, often with names, addresses and account numbers. Keeping it no longer than needed reduces what could ever be exposed.</p>
+
+  <h3>3. Never used to train models</h3>
+  <p>Your financial data stays yours. It isn't used to train or fine-tune any model. Uploading a client's statement to get a spreadsheet back doesn't turn their transactions into training material.</p>
+
+  <h2>What you control</h2>
+  <ul>
+    <li><strong>What you upload.</strong> Convert only the statements you need. If a task only needs one month, don't upload the year.</li>
+    <li><strong>How long source files are kept.</strong> The retention window for source files is yours to set.</li>
+    <li><strong>Where the export goes.</strong> Once you download a CSV, Excel or JSON file, it lives on your systems under your own controls. Treat it as carefully as the statement itself.</li>
+  </ul>
+
+  <h2>Good practice on your side</h2>
+  <p>Security is shared. A few habits keep statement data safe before and after it reaches statement.work:</p>
+  <ol>
+    <li>Get statements from the source. Download PDFs from online banking, or ask clients to use a secure file-sharing method rather than plain email attachments.</li>
+    <li>Store exports in access-controlled folders, not shared drives anyone can open.</li>
+    <li>Name files consistently (client, account, period) so nothing gets sent to the wrong person.</li>
+    <li>Delete local copies you no longer need, including the downloads folder.</li>
+    <li>Use strong, unique passwords and multi-factor authentication on the accounts where statements live.</li>
+  </ol>
+  <p>Our guide <a href="/guides/is-it-safe-to-upload-bank-statements-online/">Is it safe to upload bank statements online?</a> includes a checklist for evaluating any tool that handles financial documents, including this one.</p>
+
+  <h2>Questions for a security review</h2>
+  <p>If your firm runs a formal review before using a new tool, it will probably ask about hosting, sub-processors, access controls and certifications. This page only states what statement.work commits to today. Raise anything else you need when you join early access, before you upload client data.</p>
+</PageShell>

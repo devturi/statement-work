@@ -1,0 +1,28 @@
+---
+import { SITE } from '../lib/site';
+interface Props { variant: 'hero' | 'cta' }
+const { variant } = Astro.props;
+const hero = variant === 'hero';
+const p = hero ? 'hero' : 'cta';
+const emailId = hero ? 'hero-email' : 'waitlist-email';
+---
+<div class={hero ? 'hero-form' : 'cta-form'} data-form-wrap>
+  <form class="waitlist" id={hero ? undefined : 'waitlist-form'} action={SITE.waitlistEndpoint} method="post" novalidate data-waitlist>
+    <label for={emailId} class="sr-only">Work email</label>
+    <input id={emailId} name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@company.com" aria-describedby={`${p}-msg ${p}-note`}>
+    <div class="hp" aria-hidden="true"><label for={`${p}-website`}>Website</label><input id={`${p}-website`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
+    <button type="submit" class="btn btn-primary">
+      <span class="label">Join the waitlist</span>
+      <span class="spinner" aria-hidden="true"></span>
+      <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+  <p class="form-msg" id={`${p}-msg`} role="alert" aria-live="assertive"></p>
+  <p class="success" id={hero ? undefined : 'thanks-msg'} role="status" aria-live="polite">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1F6F5C"/><path class="check" d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>You're on the list. We'll email you when it's your turn.</span>
+  </p>
+  {hero
+    ? <p class="hero-note" id="hero-note">Early access for accountants, bookkeepers and small businesses.</p>
+    : <p class="cta-note" id="cta-note">No spam. One email when it's your turn.</p>}
+</div>

@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import PageShell from '../../layouts/PageShell.astro';
+import LinkRows from '../../components/LinkRows.astro';
+import { STATIC_PAGES, byOrder, landingPath } from '../../lib/pages';
+
+const page = STATIC_PAGES.find((p) => p.path === '/convert/')!;
+const items = (await getCollection('convert')).sort(byOrder).map((e) => ({ href: landingPath.convert(e.id), title: e.data.title, description: e.data.description }));
+const faqs = [
+  { q: 'Which format should I convert my bank statement to?', a: 'Choose Excel (XLSX) if a person will review or work on the data, CSV if it is going into accounting software or another tool, and JSON if a developer or script will process it. See [CSV vs XLSX](/guides/csv-vs-xlsx-for-bank-data/) for the details.' },
+  { q: 'Do I need a different tool for scanned statements?', a: 'No. statement.work reads digital PDFs, scanned copies and phone photos the same way and produces the same columns from each.' },
+  { q: 'Can I convert statements from more than one bank at once?', a: 'Yes. You can upload several statements together, and each comes out in the same consistent format whichever bank issued it.' },
+];
+---
+<PageShell
+  metaTitle="Bank Statement Converter: PDF, Scan or Photo to Excel, CSV & JSON | statement.work"
+  description={page.description}
+  path={page.path}
+  title={page.title}
+  lede="statement.work turns a bank statement in any form (a PDF export, a scanned copy or a phone photo) into a clean table you can open in Excel, import as CSV or process as JSON. Pick the page that matches what you have and what you need."
+  updated={page.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Convert', path: '/convert/' }]}
+  faqs={faqs}
+  related={['/guides/how-to-convert-bank-statement-pdf-to-excel/', '/guides/csv-vs-xlsx-for-bank-data/', '/banks/', '/glossary/']}
+  software
+>
+  <h2>Every conversion uses the same engine</h2>
+  <p>Whatever you start with, statement.work reads the statement itself rather than relying on a template for each bank. Every transaction comes out with the same fields: <strong>date, description, amount and running balance</strong>, plus a category. The only thing that changes between the pages below is the input you have and the file you want at the end.</p>
+
+  <h2>Find the right conversion</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">You have</th><th scope="col">You want</th><th scope="col">Read</th></tr></thead>
+      <tbody>
+        <tr><td>A PDF downloaded from online banking</td><td>A spreadsheet to review</td><td><a href="/convert/bank-statement-pdf-to-excel/">PDF to Excel</a></td></tr>
+        <tr><td>A PDF downloaded from online banking</td><td>A file to import into software</td><td><a href="/convert/bank-statement-pdf-to-csv/">PDF to CSV</a></td></tr>
+        <tr><td>A PDF, and a requirement for .xlsx specifically</td><td>A modern Excel workbook</td><td><a href="/convert/bank-statement-pdf-to-xlsx/">PDF to XLSX</a></td></tr>
+        <tr><td>A paper statement run through a scanner</td><td>Searchable, structured data</td><td><a href="/convert/scanned-bank-statement-ocr/">Scanned statement OCR</a></td></tr>
+        <tr><td>A photo of a statement taken on a phone</td><td>A spreadsheet</td><td><a href="/convert/bank-statement-photo-to-excel/">Photo to Excel</a></td></tr>
+        <tr><td>Any statement</td><td>Data for a script, app or database</td><td><a href="/convert/bank-statement-to-json/">Statement to JSON</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>All conversion pages</h2>
+  <LinkRows items={items} />
+
+  <h2>Before you convert</h2>
+  <ul>
+    <li><strong>Use the original file when you can.</strong> A PDF downloaded from online banking has cleaner text than a scan of a printout of the same PDF.</li>
+    <li><strong>Keep the whole statement together.</strong> The opening and closing balances on the first and last pages are what you check the converted transactions against.</li>
+    <li><strong>Check the result against the statement.</strong> Opening balance plus deposits minus withdrawals should equal the closing balance. Our <a href="/guides/how-bookkeepers-reconcile-bank-statements-faster/">reconciliation guide</a> shows the quick checks.</li>
+  </ul>
+  <p>statement.work is in early access. If you work with statements from a particular bank, the <a href="/banks/">bank pages</a> describe what to expect from that bank's layout.</p>
+</PageShell>

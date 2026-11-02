@@ -1,0 +1,94 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getGuides, landingPath } from '../../lib/pages';
+import { SITE, abs, isoDate, ogPathFor, prettyDate, readingMinutes } from '../../lib/site';
+import { breadcrumbList, ORG_ID, WEBSITE_ID } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const guides = await getGuides();
+  return guides.map((entry) => ({ params: { slug: entry.id }, props: { entry, guides } }));
+}
+const { entry, guides } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const path = landingPath.guides(entry.id);
+const minutes = readingMinutes(entry.body ?? '');
+const toc = headings.filter((h) => h.depth === 2);
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides/' }, { name: d.title, path }];
+
+// Related: explicit picks first, then guides sharing the most tags.
+const score = (g: typeof entry) => g.data.tags.filter((t) => d.tags.includes(t)).length;
+const others = guides.filter((g) => g.id !== entry.id);
+const picked = d.related.map((id) => others.find((g) => g.id === id)).filter(Boolean) as typeof guides;
+const related = [...picked, ...others.filter((g) => !picked.includes(g)).sort((a, b) => score(b) - score(a))].slice(0, 3);
+
+const isTeam = d.author === SITE.defaultAuthor;
+const article = {
+  '@type': 'Article',
+  '@id': `${abs(path)}#article`,
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  dateModified: d.updated.toISOString(),
+  author: isTeam ? { '@id': ORG_ID } : { '@type': 'Person', name: d.author },
+  publisher: { '@id': ORG_ID },
+  isPartOf: { '@id': WEBSITE_ID },
+  mainEntityOfPage: abs(path),
+  image: abs(ogPathFor(path)),
+  keywords: d.tags.join(', '),
+  wordCount: (entry.body ?? '').split(/\s+/).filter(Boolean).length,
+  inLanguage: 'en',
+};
+---
+<Base title={`${d.title} | statement.work`} description={d.description} path={path} ogTitle={d.title} ogType="article" jsonLd={[article, breadcrumbList(crumbs)]} published={d.date} modified={d.updated}>
+  <article class="doc guide">
+    <header class="doc-hero">
+      <div class="wrap">
+        <Breadcrumbs crumbs={crumbs} />
+        <h1>{d.title}</h1>
+        <p class="doc-lede">{d.description}</p>
+        <p class="doc-meta">
+          <span>By {d.author}</span>
+          <span>Published <time datetime={isoDate(d.date)}>{prettyDate(d.date)}</time></span>
+          <span>Last updated <time datetime={isoDate(d.updated)}>{prettyDate(d.updated)}</time></span>
+          <span>{minutes} min read</span>
+        </p>
+      </div>
+    </header>
+    <div class="wrap guide-grid">
+      <aside class="toc" aria-label="On this page">
+        <details open>
+          <summary>On this page</summary>
+          <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </details>
+      </aside>
+      <div class="prose">
+        <Content />
+        <ul class="tag-list" aria-label="Tags">{d.tags.map((t) => <li><a href={`/guides/#tag-${t}`}>{t}</a></li>)}</ul>
+        <aside class="author-box" aria-label="About the author">
+          <img src="/logo-mark.svg" width="48" height="48" alt="">
+          <div>
+            <p class="author-name">{d.author}</p>
+            <p>{isTeam
+              ? 'Written by the people building statement.work, a bank statement converter for accountants, bookkeepers and small businesses. We write about the unglamorous parts of working with bank data.'
+              : `Written for statement.work.`}</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <div class="wrap">
+      <section class="related" aria-labelledby="related-title">
+        <h2 id="related-title">Related guides</h2>
+        <ul class="link-rows">
+          {related.map((g) => (
+            <li><a href={landingPath.guides(g.id)}><span class="lr-kicker">{readingMinutes(g.body ?? '')} min read</span><span class="lr-title">{g.data.title}</span><span class="lr-desc">{g.data.description}</span></a></li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </article>
+  <CtaBand heading="Skip the retyping." text="statement.work turns bank statement PDFs, scans and photos into clean Excel, CSV or JSON. Join the waitlist for early access." />
+</Base>

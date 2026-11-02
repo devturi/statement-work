@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import PageShell from '../../layouts/PageShell.astro';
+import LinkRows from '../../components/LinkRows.astro';
+import { STATIC_PAGES, byOrder, landingPath } from '../../lib/pages';
+
+const page = STATIC_PAGES.find((p) => p.path === '/for/')!;
+const items = (await getCollection('audiences')).sort(byOrder).map((e) => ({ href: landingPath.audiences(e.id), title: e.data.title, description: e.data.description }));
+---
+<PageShell
+  metaTitle="Who statement.work Is For: Accountants, Bookkeepers & Small Businesses | statement.work"
+  description={page.description}
+  path={page.path}
+  title={page.title}
+  lede="statement.work is for anyone who has to get transactions out of bank statements and into a spreadsheet or accounting system: accountants, bookkeepers, small business owners and people preparing taxes."
+  updated={page.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Who it’s for', path: '/for/' }]}
+  related={['/convert/', '/guides/manual-data-entry-vs-automated-extraction/', '/security/', '/faq/']}
+>
+  <h2>The common problem</h2>
+  <p>The people on these pages do different jobs, but they hit the same wall. Bank data arrives as statements: PDFs exported from online banking, scans of paper copies, or photos taken on a phone. The work that follows needs rows and columns. Closing the gap by hand means copying, pasting, retyping and checking, and it gets slower with every client, account and month.</p>
+  <p>statement.work reads the statement and returns every transaction with its date, description, amount and running balance, categorized and in one consistent format, whichever bank it came from. From there you can export CSV, Excel or JSON, or ask a question about the data in plain words.</p>
+
+  <h2>Pick your role</h2>
+  <LinkRows items={items} />
+
+  <h2>What stays the same for everyone</h2>
+  <ul>
+    <li><strong>Any bank, any layout.</strong> No templates to set up per bank. See the <a href="/banks/">bank pages</a> for layout notes.</li>
+    <li><strong>Every input type.</strong> Digital PDFs, scanned statements and phone photos go through the same way.</li>
+    <li><strong>Same columns every time.</strong> Consistent exports make it easy to combine statements from different banks.</li>
+    <li><strong>Careful data handling.</strong> Statements are encrypted in transit and at rest, deleted after processing on a retention window you control, and never used to train models. Details are on the <a href="/security/">security page</a>.</li>
+  </ul>
+  <p>statement.work is currently in early access for accountants, bookkeepers and small businesses.</p>
+</PageShell>
