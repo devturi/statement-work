@@ -1,0 +1,46 @@
+---
+import PageShell from '../../layouts/PageShell.astro';
+import { GLOSSARY } from '../../data/glossary';
+import { STATIC_PAGES } from '../../lib/pages';
+import { abs } from '../../lib/site';
+
+const page = STATIC_PAGES.find((p) => p.path === '/glossary/')!;
+const termSet = {
+  '@type': 'DefinedTermSet',
+  '@id': `${abs(page.path)}#terms`,
+  name: 'Bank statement glossary',
+  description: page.description,
+  url: abs(page.path),
+  hasDefinedTerm: GLOSSARY.map((t) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${abs(page.path)}#${t.id}`,
+    name: t.term,
+    description: t.def,
+    url: `${abs(page.path)}#${t.id}`,
+    inDefinedTermSet: `${abs(page.path)}#terms`,
+  })),
+};
+---
+<PageShell
+  metaTitle="Bank Statement Glossary: Running Balance, Reconciliation, OCR, CSV & More | statement.work"
+  description={page.description}
+  path={page.path}
+  title="Bank statement glossary"
+  lede="Short, plain-English definitions of the terms that come up when you read, convert and reconcile bank statements."
+  updated={page.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Glossary', path: '/glossary/' }]}
+  related={['/guides/bank-statement-formats-explained/', '/guides/how-bookkeepers-reconcile-bank-statements-faster/', '/faq/', '/convert/']}
+  extraJsonLd={[termSet]}
+>
+  <nav class="toc-inline" aria-label="Terms">
+    <ul>{GLOSSARY.map((t) => <li><a href={`#${t.id}`}>{t.term.replace(/ \(.*\)/, '')}</a></li>)}</ul>
+  </nav>
+  <dl class="glossary">
+    {GLOSSARY.map((t) => (
+      <div class="term" id={t.id}>
+        <dt>{t.term}</dt>
+        <dd>{t.def}{t.link && <> <a href={t.link}>More on {t.term.replace(/ \(.*\)/, "").toLowerCase()}</a></>}</dd>
+      </div>
+    ))}
+  </dl>
+</PageShell>

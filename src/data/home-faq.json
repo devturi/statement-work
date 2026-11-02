@@ -1,0 +1,34 @@
+[
+  {
+    "q": "How do I convert a bank statement PDF to Excel?",
+    "a": "Upload the PDF to statement.work and download the result as an Excel file. It reads every transaction (date, description, amount and running balance) and puts each one in the right column, so there is nothing to copy, paste or retype. statement.work is in early access; join the waitlist to get in."
+  },
+  {
+    "q": "Can I convert a bank statement PDF to CSV?",
+    "a": "Yes. Every statement can be exported as CSV, Excel or JSON, with the same consistent columns every time, ready to open in a spreadsheet or import into accounting software."
+  },
+  {
+    "q": "Does it work with scanned bank statements and phone photos?",
+    "a": "Yes. statement.work reads scanned copies and photos taken on a phone as well as digital PDF exports. It reads the document itself, so the statement doesn't need selectable text."
+  },
+  {
+    "q": "Which banks does statement.work support?",
+    "a": "statement.work is built to work with statements from any bank, without a template mapped in advance. Every bank formats its statements differently, so it reads the document instead of relying on a fixed layout."
+  },
+  {
+    "q": "What is bank statement OCR?",
+    "a": "Bank statement OCR is software that reads the text and numbers on a statement, whether a PDF or an image, and turns them into structured data such as a spreadsheet. statement.work is tuned for the layouts, fonts and quirks of bank statements rather than documents in general."
+  },
+  {
+    "q": "Can I convert several bank statements at once?",
+    "a": "Yes. You can upload several statements in one go, and each one comes out in the same consistent format, whichever bank it came from."
+  },
+  {
+    "q": "Is my financial data safe?",
+    "a": "Statements are encrypted in transit and at rest, source files are deleted after processing on a retention window you control, and your data is never used to train or fine-tune AI models."
+  },
+  {
+    "q": "Who is statement.work for?",
+    "a": "statement.work is for accountants, bookkeepers and small businesses who spend time turning bank statements into spreadsheets, whether for bookkeeping, month-end close or tax prep."
+  }
+]

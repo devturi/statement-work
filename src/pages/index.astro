@@ -1,0 +1,323 @@
+---
+import Base from '../layouts/Base.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+import CtaBand from '../components/CtaBand.astro';
+import homeJs from '../scripts/home.js?raw';
+import homeFaq from '../data/home-faq.json';
+import { faqPage, softwareApplication, webPage } from '../lib/schema';
+import { STATIC_PAGES } from '../lib/pages';
+
+const page = STATIC_PAGES.find((p) => p.path === '/')!;
+const jsonLd = [webPage('/', 'statement.work', page.description, page.updated), softwareApplication, faqPage('/', homeFaq)];
+---
+<Base
+  title="Bank Statement Converter: PDF to Excel & CSV | statement.work"
+  description="Convert bank statement PDFs, scans and photos into clean Excel or CSV files. Bank statement OCR for accountants, bookkeepers and small businesses. Any bank, any layout."
+  path="/"
+  ogTitle="statement.work: stop retyping bank statements"
+  ogImage="/og-image.png"
+  ogImageAlt="statement.work logo with the headline: Stop retyping bank statements."
+  jsonLd={jsonLd}
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-copy">
+        <h1 id="hero-title">Stop retyping bank&nbsp;statements.</h1>
+        <p class="lede">statement.work reads bank statements (PDFs, scans, even phone photos) and turns every transaction into a clean Excel or CSV file. Any bank. Any layout. No templates to set up.</p>
+
+        <WaitlistForm variant="hero" />
+            </div>
+
+      <figure class="demo" id="demo" aria-labelledby="demo-cap">
+        <div class="demo-frame">
+          <div class="demo-bar">
+            <div class="files">
+              <span class="file file-in">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.75h5.25L12.5 5v9.25H4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 1.75V5.3h3.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                july-statement.pdf
+              </span>
+              <svg class="sep" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="file file-out">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M2 6.2h12M2 9.8h12M6.5 2.5v11" stroke="currentColor" stroke-width="1.3"/></svg>
+                july-statement.xlsx
+              </span>
+            </div>
+            <span class="status" aria-hidden="true"><span class="dot"></span><span class="num" data-status>7 transactions</span></span>
+          </div>
+
+          <div class="demo-body">
+            <div class="desk" aria-hidden="true">
+              <div class="page">
+                <div class="page-head">
+                  <div>
+                    <div class="bank">FIRST NATIONAL BANK</div>
+                    <div>Business Checking ••••4821</div>
+                  </div>
+                  <div class="page-meta">Statement period<br>Jul 01 – Jul 31, 2026</div>
+                </div>
+                <div class="p-cols"><span>DATE</span><span>DESCRIPTION</span><span>OUT</span><span>IN</span></div>
+                <div class="p-rows">
+                  <div class="p-row"><span class="d">07/02</span><span class="desc">POS 4821 AMZN MKTP US*2K4LT</span><span>86.40</span><span></span></div>
+                  <div class="p-row"><span class="d">07/03</span><span class="desc">STRIPE TRANSFER ST-8F2KQ</span><span></span><span>2,315.00</span></div>
+                  <div class="p-row"><span class="d">07/05</span><span class="desc">ACH DEBIT HOLLIS PROPERTY MGMT</span><span>1,850.00</span><span></span></div>
+                  <div class="p-row"><span class="d">07/08</span><span class="desc">ADOBE *CREATIVE CLD 800-833</span><span>52.99</span><span></span></div>
+                  <div class="p-row"><span class="d">07/09</span><span class="desc">ACH CREDIT HARLOW &amp; CO INV1042</span><span></span><span>1,200.00</span></div>
+                  <div class="p-row"><span class="d">07/11</span><span class="desc">MONTHLY MAINTENANCE FEE</span><span>12.00</span><span></span></div>
+                  <div class="p-row"><span class="d">07/14</span><span class="desc">AWS AMAZON WEB SERVICES</span><span>214.60</span><span></span></div>
+                </div>
+                <div class="page-foot"><span>Opening 4,210.35</span><span>Page 1 of 3</span></div>
+                <div class="scan"></div>
+              </div>
+            </div>
+
+            <div class="sheet">
+              <table class="ledger">
+                <caption class="sr-only">Example output: transactions extracted from a sample bank statement</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" class="c-date">Date</th>
+                    <th scope="col" class="c-desc">Description</th>
+                    <th scope="col" class="c-cat">Category</th>
+                    <th scope="col" class="c-amt">Amount</th>
+                    <th scope="col" class="c-bal">Balance</th>
+                    <th scope="col" class="c-tick"><span class="sr-only">Extracted</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td class="c-date num">2026-07-02</td><td>Amazon Marketplace</td><td class="c-cat"><span class="tag">Supplies</span></td><td class="c-amt num">-86.40</td><td class="c-bal num">4,123.95</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-03</td><td>Stripe payout</td><td class="c-cat"><span class="tag">Income</span></td><td class="c-amt num pos">+2,315.00</td><td class="c-bal num">6,438.95</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-05</td><td>Hollis Property Mgmt</td><td class="c-cat"><span class="tag">Rent</span></td><td class="c-amt num">-1,850.00</td><td class="c-bal num">4,588.95</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-08</td><td>Adobe Creative Cloud</td><td class="c-cat"><span class="tag">Software</span></td><td class="c-amt num">-52.99</td><td class="c-bal num">4,535.96</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-09</td><td>Harlow &amp; Co, invoice 1042</td><td class="c-cat"><span class="tag">Income</span></td><td class="c-amt num pos">+1,200.00</td><td class="c-bal num">5,735.96</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-11</td><td>Monthly maintenance fee</td><td class="c-cat"><span class="tag">Bank fees</span></td><td class="c-amt num">-12.00</td><td class="c-bal num">5,723.96</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                  <tr><td class="c-date num">2026-07-14</td><td>Amazon Web Services</td><td class="c-cat"><span class="tag">Software</span></td><td class="c-amt num">-214.60</td><td class="c-bal num">5,509.36</td><td class="c-tick"><svg class="tick" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M2 8l4.5 4L16 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr>
+                </tbody>
+              </table>
+              <div class="sheet-foot">
+                <span>Same columns, every bank</span>
+                <span class="exports" aria-label="Export formats"><span>CSV</span><span>Excel</span><span>JSON</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption id="demo-cap">A sample statement going in, a clean table coming out. Illustrative data.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== Pain ===== -->
+  <section class="section" aria-labelledby="pain-title">
+    <div class="wrap pain">
+      <div class="section-head" data-reveal>
+        <h2 id="pain-title">The part of the job nobody bills for.</h2>
+        <p>Every month, the same statements. Every bank, a different layout. And the numbers still have to go into a spreadsheet one way or another.</p>
+      </div>
+      <div>
+        <ul class="pain-list">
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h7M4 12h11M4 18h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16 15l4 4M20 15l-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3>Copy from a PDF and the columns fall apart.</h3>
+            <p>Dates land in the amount column. One description splits across three cells. You fix it row by row.</p>
+          </li>
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 3"/></svg>
+            <h3>Scanned statements can't be copied at all.</h3>
+            <p>A client sends a scan, or a photo taken on their phone. Now you're typing every line by hand.</p>
+          </li>
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M9 9v11" stroke="currentColor" stroke-width="1.8"/><path d="M14 13l4 4M18 13l-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3>Templates break.</h3>
+            <p>The tool you set up for one bank chokes on the next bank's layout. So you set it up again.</p>
+          </li>
+          <li data-reveal>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Hours disappear.</h3>
+            <p>A long statement can eat an afternoon. Mistype one figure and the balance won't tie out.</p>
+          </li>
+        </ul>
+        <p class="pain-turn" data-reveal>statement.work does that part <span>for you.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <h2 id="how-title">From PDF to spreadsheet in three steps.</h2>
+        <p>There's no template to build and nothing to map. statement.work reads the document, not the format.</p>
+      </div>
+      <ol class="steps">
+        <li data-reveal>
+          <h3>Upload</h3>
+          <p>Drop in PDF exports, scanned copies or phone photos. Several statements at once is fine.</p>
+        </li>
+        <li data-reveal>
+          <h3>Extract</h3>
+          <p>Every line comes out with its date, description, amount and running balance, in one consistent format, whatever the bank.</p>
+        </li>
+        <li data-reveal>
+          <h3>Export, or ask</h3>
+          <p>Download <a href="/convert/bank-statement-pdf-to-csv/">CSV</a>, <a href="/convert/bank-statement-pdf-to-excel/">Excel</a> or <a href="/convert/bank-statement-to-json/">JSON</a>, bring it into your accounting software, or ask a question about it in plain words.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <h2 id="features-title">Made for the way bank statements actually look.</h2>
+        <p>This isn't a generic OCR tool. It's tuned for the layouts, fonts and quirks of bank statements.</p>
+      </div>
+      <ul class="features">
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Any bank, any layout</h3>
+          <p>No template to map in advance. A new bank's statement works the same as the last one.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 6l1.5-2.5h5L16 6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.7"/></svg></span>
+          <h3>PDFs, scans and photos</h3>
+          <p>Digital exports, scanned paper copies and phone photos all go through the same way.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3 9.5h18M3 14.5h18M9 4v16" stroke="currentColor" stroke-width="1.7"/></svg></span>
+          <h3>Clean exports</h3>
+          <p>CSV, Excel or JSON, with the same columns every time. Ready to drop into a spreadsheet.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3.5 12.6V4.5a1 1 0 011-1h8.1a1 1 0 01.7.3l7.4 7.4a1 1 0 010 1.4l-8.1 8.1a1 1 0 01-1.4 0l-7.4-7.4a1 1 0 01-.3-.7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.6" fill="currentColor"/></svg></span>
+          <h3>Categorized for you</h3>
+          <p>Payroll, rent, subscriptions and more, sorted without tagging each line by hand.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3.5l9.5 16.5h-19z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.1" fill="currentColor"/></svg></span>
+          <h3>Anomalies flagged</h3>
+          <p>Duplicate charges, fee spikes and unusual transactions surface on their own instead of hiding in row 214.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.3-3.8-8.5S9.4 5.9 12 3.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <h3>Multi-currency</h3>
+          <p>Statements in different currencies are handled without manual reformatting.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Ask ===== -->
+  <section class="ask" id="ask" aria-labelledby="ask-title">
+    <div class="wrap ask-grid">
+      <div class="section-head" data-reveal>
+        <h2 id="ask-title">Ask your statements a question.</h2>
+        <p>Skip the filters and pivot tables. Ask what you actually want to know, in plain words, and get an answer built from the real transactions.</p>
+        <ul class="ask-points">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Totals by category, vendor or period</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Duplicate charges and fee spikes</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>That one charge you can't find</li>
+        </ul>
+      </div>
+
+      <div data-reveal style="--d:60ms">
+        <div class="chat" id="chat">
+          <div class="chat-top">
+            <strong>Ask statement.work</strong>
+            <span class="files-count">Business Checking, Jan–Sep 2026</span>
+          </div>
+          <div class="chat-log" id="chat-log" aria-live="polite" aria-atomic="false">
+            <div class="msg msg-q">What did we spend on software subscriptions in Q2?</div>
+            <div class="msg msg-a"><span class="num">$1,842.30</span> across 14 charges. Adobe and AWS make up 68% of it, and AWS jumped by <span class="num">$214</span> in June after an added instance.</div>
+          </div>
+          <div class="chat-foot">
+            <p id="chips-label">Try a question</p>
+            <div class="chips" role="group" aria-labelledby="chips-label">
+              <button type="button" class="chip" data-q="0" aria-pressed="true">What did we spend on software in Q2?</button>
+              <button type="button" class="chip" data-q="1" aria-pressed="false">Any duplicate charges last month?</button>
+              <button type="button" class="chip" data-q="2" aria-pressed="false">Did any bank fees go up?</button>
+            </div>
+          </div>
+        </div>
+        <p class="note">Sample conversation. Figures are illustrative.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Security ===== -->
+  <section class="section" id="security" aria-labelledby="security-title" style="padding-top:var(--section)">
+    <div class="wrap trust">
+      <div class="section-head" data-reveal>
+        <h2 id="security-title">Handled like the sensitive documents they are.</h2>
+        <p>Bank statements carry account numbers, balances and your clients' business. They're treated that way from upload to deletion. <a href="/security/">How we handle your data</a>.</p>
+      </div>
+      <ul class="trust-list">
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V8a4 4 0 018 0v2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <h3>Encrypted in transit and at rest</h3>
+          <p>From the moment you upload a statement, through processing.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.5 11v5.5M13.5 11v5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <h3>Deleted after processing</h3>
+          <p>Source files are removed once your export is ready, on a retention window you control.</p>
+        </li>
+        <li data-reveal>
+          <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Never used to train models</h3>
+          <p>Your financial data stays yours. It isn't used to train or fine-tune anything.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq">
+      <div class="section-head" data-reveal>
+        <h2 id="faq-title">Questions, answered.</h2>
+        <p>What people usually want to know about converting bank statements with statement.work. More answers are on the <a href="/faq/">full FAQ</a>.</p>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary><h3>How do I convert a bank statement PDF to Excel?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a">
+            <p>Upload the PDF to statement.work and download the result as an Excel file. It reads every transaction (date, description, amount and running balance) and puts each one in the right column, so there's nothing to copy, paste or retype.</p>
+            <p>statement.work is in early access. <a href="#early-access">Join the waitlist</a> to get in.</p>
+          </div>
+        </details>
+        <details>
+          <summary><h3>Can I convert a bank statement PDF to CSV?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Yes. Every statement can be exported as CSV, Excel or JSON, with the same consistent columns every time, ready to open in a spreadsheet or import into accounting software.</p></div>
+        </details>
+        <details>
+          <summary><h3>Does it work with scanned bank statements and phone photos?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Yes. statement.work reads scanned copies and photos taken on a phone as well as digital PDF exports. It reads the document itself, so the statement doesn't need selectable text.</p></div>
+        </details>
+        <details>
+          <summary><h3>Which banks does statement.work support?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>statement.work is built to work with statements from any bank, without a template mapped in advance. Every bank formats its statements differently, so it reads the document instead of relying on a fixed layout.</p></div>
+        </details>
+        <details>
+          <summary><h3>What is bank statement OCR?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Bank statement OCR is software that reads the text and numbers on a statement, whether a PDF or an image, and turns them into structured data such as a spreadsheet. statement.work is tuned for the layouts, fonts and quirks of bank statements rather than documents in general.</p></div>
+        </details>
+        <details>
+          <summary><h3>Can I convert several bank statements at once?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Yes. You can upload several statements in one go, and each one comes out in the same consistent format, whichever bank it came from.</p></div>
+        </details>
+        <details>
+          <summary><h3>Is my financial data safe?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>Statements are encrypted in transit and at rest, source files are deleted after processing on a retention window you control, and your data is never used to train or fine-tune AI models.</p></div>
+        </details>
+        <details>
+          <summary><h3>Who is statement.work for?</h3><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+          <div class="faq-a"><p>statement.work is for accountants, bookkeepers and small businesses who spend time turning bank statements into spreadsheets, whether for bookkeeping, month-end close or tax prep.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Final CTA ===== -->
+  <CtaBand />
+  <script is:inline slot="scripts" set:html={homeJs} />
+</Base>

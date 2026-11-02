@@ -1,0 +1,20 @@
+{
+  "name": "statement-work",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/check-build.mjs",
+    "preview": "astro preview",
+    "check": "node scripts/check-build.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "4.0.19",
+    "@resvg/resvg-js": "2.6.2",
+    "astro": "5.18.2",
+    "satori": "0.18.3"
+  },
+  "engines": { "node": ">=20.3.0" }
+}

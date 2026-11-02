@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageShell from '../../layouts/PageShell.astro';
+import { landingPath } from '../../lib/pages';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('banks');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const path = landingPath.banks(entry.id);
+---
+<PageShell
+  metaTitle={d.metaTitle}
+  description={d.description}
+  path={path}
+  title={d.title}
+  lede={d.lede}
+  updated={d.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Banks', path: '/banks/' }, { name: d.nav ?? d.title, path }]}
+  faqs={d.faqs}
+  related={d.related}
+  software={false}
+>
+  <p class="disclaimer"><strong>Not affiliated with {d.bank}.</strong> statement.work is an independent tool. {d.bank} is a trademark of its owner and is named here only to describe the statements this page is about.</p>
+  <Content />
+</PageShell>

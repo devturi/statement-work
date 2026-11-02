@@ -1,0 +1,15 @@
+---
+interface Props { items: { href: string; title: string; description: string; kicker?: string }[] }
+const { items } = Astro.props;
+---
+<ul class="link-rows">
+  {items.map((i) => (
+    <li>
+      <a href={i.href}>
+        {i.kicker && <span class="lr-kicker">{i.kicker}</span>}
+        <span class="lr-title">{i.title}</span>
+        <span class="lr-desc">{i.description}</span>
+      </a>
+    </li>
+  ))}
+</ul>

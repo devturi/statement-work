@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getGuides, landingPath, STATIC_PAGES } from '../../lib/pages';
+import { abs, isoDate, prettyDate, readingMinutes } from '../../lib/site';
+import { breadcrumbList, webPage } from '../../lib/schema';
+
+const page = STATIC_PAGES.find((p) => p.path === '/guides/')!;
+const guides = await getGuides();
+const tags = [...new Set(guides.flatMap((g) => g.data.tags))].sort();
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides/' }];
+const itemList = {
+  '@type': 'ItemList',
+  itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(landingPath.guides(g.id)), name: g.data.title })),
+};
+const updated = new Date(Math.max(page.updated.valueOf(), ...guides.map((g) => g.data.updated.valueOf())));
+---
+<Base title="Guides: Bank Statements, Excel, CSV & Reconciliation | statement.work" description={page.description} path="/guides/" ogTitle="Guides" jsonLd={[webPage('/guides/', 'Guides', page.description, updated), breadcrumbList(crumbs), itemList]}>
+  <section class="doc-hero">
+    <div class="wrap">
+      <Breadcrumbs crumbs={crumbs} />
+      <h1>Guides</h1>
+      <p class="doc-lede">Practical, tool-agnostic guides to getting bank statement data into shape: converting PDFs, choosing formats, categorizing, reconciling and staying safe. Written for accountants, bookkeepers and small businesses.</p>
+      <p class="doc-meta"><span>Last updated <time datetime={isoDate(updated)}>{prettyDate(updated)}</time></span><a href="/rss.xml">RSS feed</a></p>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="tag-filter" role="group" aria-label="Filter guides by tag">
+      <button type="button" class="chip-light" data-tag="" aria-pressed="true">All</button>
+      {tags.map((t) => <button type="button" class="chip-light" data-tag={t} id={`tag-${t}`} aria-pressed="false">{t}</button>)}
+    </div>
+    <ul class="guide-list">
+      {guides.map((g) => (
+        <li data-tags={g.data.tags.join(' ')}>
+          <a href={landingPath.guides(g.id)}>
+            <h2>{g.data.title}</h2>
+            <p>{g.data.description}</p>
+            <p class="gl-meta"><time datetime={isoDate(g.data.updated)}>{prettyDate(g.data.updated)}</time> · {readingMinutes(g.body ?? '')} min read · {g.data.tags.join(', ')}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <CtaBand />
+  <script is:inline slot="scripts">
+  (function(){
+    var buttons = document.querySelectorAll('.tag-filter [data-tag]');
+    var items = document.querySelectorAll('.guide-list li');
+    function apply(tag){
+      buttons.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.tag === tag ? 'true' : 'false'); });
+      items.forEach(function(li){ li.hidden = !!tag && li.dataset.tags.split(' ').indexOf(tag) < 0; });
+    }
+    buttons.forEach(function(b){ b.addEventListener('click', function(){ apply(b.dataset.tag); history.replaceState(null, '', b.dataset.tag ? '#tag-' + b.dataset.tag : location.pathname); }); });
+    var m = location.hash.match(/^#tag-(.+)$/); if (m) apply(decodeURIComponent(m[1]));
+  })();
+  </script>
+</Base>

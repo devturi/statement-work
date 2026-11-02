@@ -2,3 +2,6 @@
 .agents/
 skills-lock.json
 .impeccable/
+node_modules/
+dist/
+.astro/

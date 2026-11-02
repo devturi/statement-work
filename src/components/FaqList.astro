@@ -1,0 +1,14 @@
+---
+import { marked } from '../lib/inline-md';
+interface Props { faqs: { q: string; a: string }[]; openFirst?: boolean; headingLevel?: 'h3' | 'h4' }
+const { faqs, openFirst = true, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<div class="faq-list">
+  {faqs.map((f, i) => (
+    <details open={openFirst && i === 0 ? true : undefined}>
+      <summary><H>{f.q}</H><span class="plus" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></summary>
+      <div class="faq-a"><p set:html={marked(f.a)} /></div>
+    </details>
+  ))}
+</div>

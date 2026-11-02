@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import PageShell from '../../layouts/PageShell.astro';
+import LinkRows from '../../components/LinkRows.astro';
+import { STATIC_PAGES, byOrder, landingPath } from '../../lib/pages';
+
+const page = STATIC_PAGES.find((p) => p.path === '/banks/')!;
+const banks = (await getCollection('banks')).sort(byOrder);
+const row = (e: (typeof banks)[number]) => ({ href: landingPath.banks(e.id), title: e.data.title, description: e.data.description });
+const us = banks.filter((b) => b.data.country === 'US').map(row);
+const uk = banks.filter((b) => b.data.country === 'UK').map(row);
+---
+<PageShell
+  metaTitle="Convert Bank Statements to Excel & CSV by Bank (US & UK) | statement.work"
+  description={page.description}
+  path={page.path}
+  title={page.title}
+  lede="statement.work doesn't need a template for each bank: it reads the statement, not the format. These pages cover 20 widely used US and UK banks, what their statements generally look like, and the conversion problems to watch for."
+  updated={page.updated}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Banks', path: '/banks/' }]}
+  related={['/guides/bank-statement-formats-explained/', '/convert/bank-statement-pdf-to-excel/', '/convert/scanned-bank-statement-ocr/', '/glossary/']}
+>
+  <h2>Why the bank matters (and why it doesn't)</h2>
+  <p>Every bank lays out its statements differently. Column order, date format, how debits and credits are shown, whether the running balance appears on every line, and how multi-line descriptions wrap all vary. That is why template-based converters break when you move from one bank to the next.</p>
+  <p>statement.work reads each statement as a document, so the output is the same set of columns whichever bank issued it. The bank pages exist to help you know what to check, not because each bank needs special setup.</p>
+
+  <h2>US banks</h2>
+  <p>US statements usually show dates as month/day, group or label transactions by type (deposits, withdrawals, checks, card purchases), and use dollar amounts with a period as the decimal separator.</p>
+  <LinkRows items={us} />
+
+  <h2>UK banks</h2>
+  <p>UK statements usually show dates day-first, often split amounts into separate "paid out" and "paid in" columns, and use short codes to label transaction types.</p>
+  <LinkRows items={uk} />
+
+  <p class="disclaimer">statement.work is not affiliated with, endorsed by or sponsored by any of the banks listed. Bank names are trademarks of their owners and are used only to describe their statements. Statement layouts change over time, so treat these pages as general guidance.</p>
+</PageShell>
