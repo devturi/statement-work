@@ -3,7 +3,7 @@ export const SITE = {
   name: 'statement.work',
   tagline: 'Bank statement converter: PDFs, scans and photos into clean Excel, CSV or JSON.',
   waitlistEndpoint:
-    'https://script.google.com/macros/s/AKfycbxGp51OA5v87-msg7tLyDVGcoIhT03ok_PcIegCnxAU71w0YBHYiHhJyyLzd3t32wef7w/exec',
+    'https://script.google.com/macros/s/AKfycbwr2fmfWTNKCwk71gygvJDQvFM4xyCNQp0Ys5FDgYLCO4n7R26V0y0vha8tb5rn1IApNA/exec',
   // Used when a guide does not name a person. Replace with a real author once there is one.
   defaultAuthor: 'statement.work team',
 };
